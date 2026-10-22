@@ -88,6 +88,86 @@
 
 
 
+# Family->
+## ANAGRAFICA
+| Campo                  |   Tipo     | Obbligatorio | Note |
+| --- | --- | --- | --- |
+|customerName            |String      |   Yes     |   
+|customerLastname        |String      |   Yes     |
+|codiceFiscale           |String      |   Yes     |
+|phone                   |String      |   Yes     |
+|email                   |String      |   Yes     |
+|customerAddress         |String      |   Yes     |
+|sede                    |ref         |   Yes     |Automatico
+|PrivacyConsentDate      |date        |   Yes     |Automatico, al caricamento del documento firmato|
+
+
+## REQUEST
+| Campo                  |   Tipo     | Obbligatorio | Note |
+| --- | --- | --- | --- |
+|family                 |ref          |  Yes      |quale famiglia cerca|
+|ServiceType            |String(enum) |  Yes      |colf, badante, babysitter|
+|workRequest            |String(enum) | Yes       |convivente, convivente part-time, non convivente, assistenza notturna, presenza notturna|
+|oreRichiesteSettimana  |Number       | Yes       |
+|schedule               |String       | Yes       |orari di lavoro richiesti|
+|weekendNeeded          |Boolean      | no        |
+|durationType           |String(enum) | Yes       |determinato, indeterminato|
+|startDate              |Date         |Yes        |
+|endDate                |Date         |No         |
+|workAddress            |String       |Yes        |
+|workCity               |String       |Yes        |
+|workProvince           |String       |Yes        |
+|pets                   |{object}     |No         |cane: numero, gatto: numero|
+|requiredLanguage       |String       |No         |
+|requiredDrivingLicense |Boolean      |No         |
+|notes                  |String       |No         |
+
+## REQUEST = COLF
+| Campo                  |   Tipo     | Obbligatorio | Note |
+| --- | --- | --- | --- |
+|otherStaff             |Boolean      |No         |
+|specificCompetence     |String(enum) |No         |cucina, giardino, autista|
+|experienceRequired     |Boolean      |No         |
+
+## REQUEST = BABYSITTER
+| Campo                  |   Tipo     | Obbligatorio | Note |
+| --- | --- | --- | --- |
+|numberOfChildren       |Number       |Yes        |
+|dateOfBirthYoungest    |Date         |Yes        |
+|specialNeeds           |String       |No         |per bambini autistici o con deficit|
+
+
+## REQUEST = BADANTE
+| Campo                  |   Tipo     | Obbligatorio | Note |
+| --- | --- | --- | --- |
+|numberOfAssisted       |Number       |Yes        |
+|mainAssistedName       |String       |Yes        |
+|birthDate              |Date         |Yes        |
+|selfSufficientLevel    |String(enum) |Yes        |completamente autosufficiente, abbastanza autosufficiente, non autosufficiente, disabile grave|
+|cognitiveState         |String(enum) |Yes        |lucido, demenza, alzheimer grave, altro|
+|mobility               |String(enum) |Yes        |autonomo, bastone, girello, carrozzina, allettato |
+|specialNeeds           |Boolean      |No         |
+|therapiesDetail        |String       |No         |
+|specialDiet            |String       |No         |
+|sleepsAtNight          |Boolean      |No         |
+
+
+## REQUEST - DATI GENERICI
+| Campo                  |   Tipo     | Obbligatorio | Note |
+| --- | --- | --- | --- |
+|inquadramento           |String(enum)   |Yes      |tabella A,B,C,D,E|
+|livello                 |String(enum)   |Yes      |A, AS, B, BS, C, CS, D, DS|
+|maggiorazioni           |String         |No       |minori, +assistiti|
+|statusRichiesta         |String(enum)   |Yes      |inAttesa, attiva, inProva, Chiusa|
+|isPublic                |Boolean        |Yes      |
+|publicDescription       |String         |No       |
+|sede                    |ref            |Yes      |
+|createdAt               |date           |Yes      |
+|updatedAt               |date           |Yes      |
+
+
+
+
 
 
 
