@@ -166,9 +166,52 @@
 |updatedAt               |date           |Yes      |
 
 
+____________________________________
+
+# Sede->
+| Campo              |   Tipo | Obbligatorio | Note |
+| ---                | ---    | ---          | ---  |
+|name                |String  |Yes           |
+|address             |String  |Yes           |
+|city                |String  |Yes           |
+|provincia           |String  |Yes           |
+|phoneNumber         |String  |Yes           |
+|email               |String  |Yes           |
+|isActive            |Boolean |Yes           |
+|createdAt           |date    |Yes           |
+|updatedAt           |date    |Yes           |
+
+
+# User->
+| Campo              |   Tipo        | Obbligatorio | Note |
+| ---                | ---           | ---          | ---  |
+|email               |String         |Yes           |
+|password            |String         |Yes           |
+|role                |String(enum)   |Yes           |Admin, sede|
+|isActive            |Boolean        |Yes           |
+|sede                |ref            |Yes           |solo per sedi|
+|createdAt           |date           |Yes           |
+|updatedAt           |date           |Yes           |
 
 
 
+____________________________________
+
+# Job
+| Campo              |   Tipo       | Obbligatorio | Note |
+| ---                | ---          | ---          | ---  |
+|employee            |ref           |Yes           |tabella Worker|
+|request             |ref           |Yes           |tabella Request|
+|family              |ref           |Yes           |tabella Family|
+|city                |String        |Yes           |ref? da tabella request|
+|sede                |ref           |Yes           |tabella Sede|
+|startDate           |Date          |Yes           |
+|endDate             |Date          |No            |
+|status              |String(enum)  |Yes           |Attivo, Cessato|
+|inquadramento       |String        |Yes           |ref? da tabella request|
+|oreSettimanali      |Number        |Yes           |ref? da tabella request|
+|createdAt           |date           |Yes           |
+|updatedAt           |date           |Yes           |
 
 
 
