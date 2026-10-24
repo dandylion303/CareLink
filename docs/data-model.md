@@ -20,7 +20,7 @@
 | Campo | Tipo | Obbligatorio | Note |
 | --- | --- | --- | --- |
 |jobTypes          | String(enum) |   Yes  | badante, colf babysitter |
-|workArrangements  | String(enum) |   Yes  | convivente, convivente part-time, non convivente, notturna |
+|regime  | String(enum) |   Yes  | convivente, convivente part-time, non convivente, notturna |
 |availableFor      | String(enum) |   No   | weekend, sostituzioni, sforzi fisici |
 |experienceWith    | String(enum) |   No   |neonati, bambini, anziani, allettati, alzheimer/demenza, oncologici, PEG, autismo |
 |skills            | String(enum) |   No   |punture, pressione, glicemia, cucinare, sollevatore, ossigeno, giocare a carte |
