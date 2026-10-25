@@ -28,7 +28,7 @@
 |smoker            |   Boolean    |   No   | default: false|
 | hasDrivingLicense | Boolean     | no     | Default false |
 | hasCar            | Boolean     | no     | Default false |
-| yearsInItaly      | Number      | no     | |
+| yearsInItaly      | Number      | Yes    | |
 | hasReferences     | Boolean     | no     | Default false |
 |rating             | Number      | no     | Valutazione della sede da 0 a 10|
 |notes              | String      | No     | |
@@ -50,7 +50,6 @@
 | type | String (enum) | Yes | carta d'identità, passaporto, permesso di soggiorno, altro |
 | fileUrl    | String | Yes | Url di Cloudinary |
 | publicId   | String | Yes | Serve per eliminare il file da Cloudinary |
-| uploadedAt | Date   | Yes | Default: data di caricamento |
 | expiryDate | Date   | No | Per segnalare i documenti scaduti o in scadenza |
 
 ### certifications (elenco di oggetti)
@@ -108,7 +107,7 @@
 |family                 |ref          |  Yes      |quale famiglia cerca|
 |ServiceType            |String(enum) |  Yes      |colf, badante, babysitter|
 |workRequest            |String(enum) | Yes       |convivente, convivente part-time, non convivente, assistenza notturna, presenza notturna|
-|oreRichiesteSettimana  |Number       | Yes       |
+|oreSettimanali  |Number       | Yes       |
 |schedule               |String       | Yes       |orari di lavoro richiesti|
 |weekendNeeded          |Boolean      | no        |
 |durationType           |String(enum) | Yes       |determinato, indeterminato|
@@ -200,18 +199,18 @@ ____________________________________
 # Job
 | Campo              |   Tipo       | Obbligatorio | Note |
 | ---                | ---          | ---          | ---  |
-|employee            |ref           |Yes           |tabella Worker|
+|worker            |ref           |Yes           |tabella Worker|
 |request             |ref           |Yes           |tabella Request|
 |family              |ref           |Yes           |tabella Family|
-|city                |String        |Yes           |ref? da tabella request|
 |sede                |ref           |Yes           |tabella Sede|
 |startDate           |Date          |Yes           |
 |endDate             |Date          |No            |
 |status              |String(enum)  |Yes           |Attivo, Cessato|
 |inquadramento       |String        |Yes           |ref? da tabella request|
+|livello             |String        |Yes           |ref
 |oreSettimanali      |Number        |Yes           |ref? da tabella request|
-|createdAt           |date           |Yes           |
-|updatedAt           |date           |Yes           |
+|createdAt           |date          |Yes           |
+|updatedAt           |date          |Yes           |
 
 
 
