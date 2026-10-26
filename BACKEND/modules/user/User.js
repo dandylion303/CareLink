@@ -50,4 +50,4 @@ const userSchema = new Schema({
     })
 
 const User = model('User', userSchema, 'utenti')
-export default Utente
+export default User

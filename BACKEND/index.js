@@ -2,10 +2,12 @@ import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
 import initDatabaseConnection from './config/db.js'
+import authRouter from './modules/auth/authRoutes.js'
+import { errorHandler } from './middlewares/errorHandler.js'
+
 
 const PORT = process.env.PORT || 4444
 const server = express()
-
 
 const startServer = async () => {
     await initDatabaseConnection()
@@ -19,6 +21,8 @@ server.use(cors())
 server.get('/', (req, res) => {
     res.status(200).json({ message: 'Entrypoint funzionante' })
 })
+server.use('/auth',authRouter)
+server.use(errorHandler)
 
 startServer()
 
