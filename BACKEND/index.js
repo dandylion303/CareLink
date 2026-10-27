@@ -3,6 +3,7 @@ import cors from 'cors'
 import 'dotenv/config'
 import initDatabaseConnection from './config/db.js'
 import authRouter from './modules/auth/authRoutes.js'
+import sedeRouter from './modules/sede/sedeRoutes.js'
 import { errorHandler } from './middlewares/errorHandler.js'
 
 
@@ -22,6 +23,7 @@ server.get('/', (req, res) => {
     res.status(200).json({ message: 'Entrypoint funzionante' })
 })
 server.use('/auth',authRouter)
+server.use('/sedi', sedeRouter)
 server.use(errorHandler)
 
 startServer()
