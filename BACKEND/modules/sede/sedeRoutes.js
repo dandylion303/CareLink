@@ -8,7 +8,7 @@ const sedeRouter = express.Router()
 sedeRouter.get('/', checkToken, checkRole('admin'), getAllSedi)
 sedeRouter.get('/:id', checkToken, checkRole('admin'), getSedeById)
 sedeRouter.post('/', checkToken, checkRole('admin'),createSede)
-sedeRouter.put('/:id', checkToken, checkRole('admin'), updateSede)
+sedeRouter.patch('/:id', checkToken, checkRole('admin'), updateSede)
 sedeRouter.patch('/:id/deactivate',checkToken, checkRole('admin'), deactivateSede )
 
 

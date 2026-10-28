@@ -4,6 +4,9 @@ import 'dotenv/config'
 import initDatabaseConnection from './config/db.js'
 import authRouter from './modules/auth/authRoutes.js'
 import sedeRouter from './modules/sede/sedeRoutes.js'
+import workerRouter from './modules/worker/workerRoutes.js'
+import familyRouter from './modules/family/familyRoutes.js'
+import requestRouter from './modules/request/requestRoutes.js'
 import { errorHandler } from './middlewares/errorHandler.js'
 
 
@@ -24,6 +27,9 @@ server.get('/', (req, res) => {
 })
 server.use('/auth',authRouter)
 server.use('/sedi', sedeRouter)
+server.use('/carers', workerRouter)
+server.use('/family', familyRouter)
+server.use('/requests',requestRouter)
 server.use(errorHandler)
 
 startServer()

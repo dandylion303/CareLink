@@ -70,7 +70,7 @@ export const certificazioni = [
 export const selfSufficientLevel = [
     'Completamente Autosufficiente',
     'Abbastanza autosufficiente',
-    'non autosufficiente',
+    'Non autosufficiente',
     'disabile grave'
 ]
 
