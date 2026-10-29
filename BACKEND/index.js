@@ -8,7 +8,7 @@ import workerRouter from './modules/worker/workerRoutes.js'
 import familyRouter from './modules/family/familyRoutes.js'
 import requestRouter from './modules/request/requestRoutes.js'
 import { errorHandler } from './middlewares/errorHandler.js'
-
+import jobRouter from './modules/job/jobRoutes.js'
 
 const PORT = process.env.PORT || 4444
 const server = express()
@@ -30,6 +30,7 @@ server.use('/sedi', sedeRouter)
 server.use('/carers', workerRouter)
 server.use('/family', familyRouter)
 server.use('/requests',requestRouter)
+server.use('/jobs', jobRouter)
 server.use(errorHandler)
 
 startServer()
