@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs'
 import User from '../user/User.js'
 import jwt from 'jsonwebtoken'
+import { Error } from 'mongoose'
 
 export const createUser = async (req, res, next) => {
     try {
