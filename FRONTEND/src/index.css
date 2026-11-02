@@ -10,7 +10,7 @@
   /* CareLink additional theme colors */
   --cl-primary: #145A5A;
   --cl-primary-hover: #0F4545;
-  --cl-positive-bg: #E1EEEE;
+  --cl-positive-bg: #d9e3e3;
   --cl-positive-text: #145A5A;
   --cl-negative-bg: #FBE6E1;
   --cl-negative-text: #9E2F1B;
@@ -39,6 +39,11 @@ h3,h4,h5,h6,
   font-family: "Bricolage Grotesque", sans-serif;
 }
 
+a{
+  text-decoration: none;
+  color: var(--cl-primary);
+}
+
 /* buttons */
 
 .btn-primary {
@@ -61,8 +66,8 @@ h3,h4,h5,h6,
   color: #FFFFFF !important;
   opacity: 0.65;
 }
-_________________
-/* status labels */
+
+/*----------status labels------- */
 .badge-positive {
   color: var(--cl-positive-text);
   background-color: var(--cl-positive-bg);
@@ -89,4 +94,40 @@ _________________
 /* Bordi */
 .border-cl {
   border-color: var(--cl-border) !important;
+}
+
+
+/* -------PERSONALIZZAZIONI GENERALI-------*/
+.logo{
+  color: inherit;
+}
+
+.nav-link{
+  color: var(--bs-body-color);
+  text-transform: uppercase;
+  padding: 5px;
+  border:1px solid var(--cl-positive-bg);
+  margin: 5px;
+  border-radius: 5px;
+}
+
+.nav-link:hover{
+  color: var(--cl-text-secondary);
+  background-color:var(--cl-positive-bg);
+}
+
+.nav-link.active{
+  background-color: var(--cl-primary);
+  color: white;
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* -------TABELLE-------*/
+
+.table thead th{
+  text-transform: uppercase;
+  color: var(--cl-text-secondary);
+  font-size: small;
+  font-weight:normal;
 }

@@ -1,19 +1,32 @@
 import { NavLink, Outlet, Link } from "react-router-dom"
 import { Container, Row, Col, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
 
 export const Layout = () => {
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        localStorage.removeItem('token')
+        navigate('/login')
+    }
+
     return (
         <>
-//HEADER        
+{/*/////////----HEADER----/////////////////*/}
+
             <header className="d-flex justify-content-between align-items-center px-4 py-3">
                 <span className="h1">
-                    <Link to='/'>
+                    <Link to='/' className="logo">
                         Care<em className="text-cl-primary">Link</em>
                     </Link>
                 </span>
-                <Button>Esci</Button>
+                <Button
+                    onClick={handleLogout}>
+                    Esci
+                </Button>
             </header>
-//CONTENUTO 
+{/*/////////----CONTENUTO----///////////////*/}     
             <Container fluid>
                 <Row>
                     <Col md={3} lg={2}>
