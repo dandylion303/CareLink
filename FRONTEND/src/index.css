@@ -98,6 +98,11 @@ a{
 
 
 /* -------PERSONALIZZAZIONI GENERALI-------*/
+.mainHeader{
+  background-color: var(--cl-positive-bg);
+  margin-bottom: 15px
+}
+
 .logo{
   color: inherit;
 }
@@ -112,7 +117,7 @@ a{
 }
 
 .nav-link:hover{
-  color: var(--cl-text-secondary);
+  color: var(--bs-body-color);
   background-color:var(--cl-positive-bg);
 }
 
@@ -130,4 +135,16 @@ a{
   color: var(--cl-text-secondary);
   font-size: small;
   font-weight:normal;
+}
+
+/* -------CARERS-------*/
+.carer-initials{
+  text-transform: uppercase;
+  padding: 3px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

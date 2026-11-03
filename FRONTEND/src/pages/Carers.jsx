@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useEffect } from "react"
-import { Spinner, Table } from 'react-bootstrap';
+import { Spinner, Table, Button } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 
 
 const URL = import.meta.env.VITE_API_URL
@@ -61,10 +62,12 @@ export const Carers = () => {
     }
 
 
-
     return (
         <>
-            <h1 className=" h3 text-end text-cl-primary">Abbiamo {carers.length} Carer da proporre:</h1>
+            <div className="d-flex justify-content-between mb-3">
+                <h1 className=" h3 text-start text-cl-primary">Abbiamo {carers.length} Carer da proporre:</h1>
+                <Link to='/carers/new' className="btn btn-primary">+ Carer</Link>
+            </div>
             <div className="bg-cl-surface border border-cl rounded-3 overflow-hidden">
                 <Table hover responsive className='align-middle mb-0'>
                     <thead>
@@ -81,19 +84,26 @@ export const Carers = () => {
                             <tr key={carer._id}>
                                 <td>
                                     <div className="d-flex align-items-center">
-                                        <p className="me-3 mb-0 border rounded-circle p-2 bg-cl-positive">
+                                        <p className="carer-initials me-3 mb-0 border rounded-circle bg-cl-positive">
                                             {carer.nome[0]}{carer.lastName[0]}
                                         </p>
                                         <div>
-                                            <p className="fw-bold mb-0">{carer.nome} {carer.lastName}</p>
-                                            <p className="fw-lighter text-muted mb-0">{carer.city}</p>
+                                            <p className="fw-bold mb-0 text-capitalize">{carer.nome} {carer.lastName}</p>
+                                            <p className="fw-lighter text-cl-secondary small mb-0">{carer.city}</p>
                                         </div>
                                     </div>
                                 </td>
                                 <td>{(carer.jobTypes).join(', ')}</td>
                                 <td>{(carer.regimes).join(', ')}</td>
                                 <td>{carer.phone}</td>
-                                <td>{carer.status}</td>
+                                <td>{carer.status === 'disponibile'
+                                    ? <span className="badge rounded-pill badge-positive px-3 py-2">
+                                        Disponibile
+                                    </span>
+                                    : <span className="badge rounded-pill badge-negative px-3 py-2">
+                                        Non Disponibile
+                                    </span>}
+                                </td>
                             </tr>
                         ))}
 

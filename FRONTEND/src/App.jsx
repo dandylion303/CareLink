@@ -1,5 +1,6 @@
 import { Login } from "./pages/Login";
 import { Carers } from "./pages/Carers";
+import { NewCarerForm } from "./pages/NewCarerForm";
 import Dashboard from "./pages/Dashboard";
 import { Layout } from "./components/Layout";
 import { Route, Routes } from 'react-router-dom';
@@ -25,8 +26,12 @@ const App = () => {
             element={<Dashboard />}
           />
           <Route
-            path='/carers'
-            element={<Carers/>}/>
+            path='carers'
+            element={<Carers />} />
+          <Route
+            path='carers/new'
+            element={<NewCarerForm />} />
+      
         </Route>
       </Routes>
     </>
