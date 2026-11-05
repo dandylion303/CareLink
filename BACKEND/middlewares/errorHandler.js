@@ -18,6 +18,7 @@ export const errorHandler = (error, req, res, next) => {
         })
     }
     else {
+        console.error(error)
         res.status(500).json({
             status: 'errore del server',
             message: 'Si è verificato un errore, riprova'

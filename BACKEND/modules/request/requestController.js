@@ -1,11 +1,12 @@
 import Request from './Request.js'
 import Family from '../family/Family.js'
 import { profileFilter } from '../../utils/sedeFilter.js'
+import { calculateInquadramento } from './requestService.js'
 
 
 export const getAllRequests = async (req, res, next) => {
     try {
-        const allRequests = await Request.find(profileFilter(req.user))
+        const allRequests = await Request.find(profileFilter(req.user)).populate('famiglia', 'customerName customerLastname')
         res.status(200).json(allRequests)
     } catch (error) {
         next(error)
@@ -18,7 +19,8 @@ export const createRequest = async (req, res, next) => {
         if (!searchFamily) {
             return res.status(404).json({ message: 'famiglia non trovata' })
         } else {
-            const newRequest = await Request.create({ ...req.body, sede: req.user.sede })
+            const calculated = calculateInquadramento(req.body)
+            const newRequest = await Request.create({ ...req.body,...calculated, sede: req.user.sede })
             res.status(201).json(newRequest)
         }
     } catch (error) {

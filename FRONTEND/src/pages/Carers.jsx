@@ -84,7 +84,7 @@ export const Carers = () => {
                             <tr key={carer._id}>
                                 <td>
                                     <div className="d-flex align-items-center">
-                                        <p className="carer-initials me-3 mb-0 border rounded-circle bg-cl-positive">
+                                        <p className="round-initials me-3 mb-0 border rounded-circle bg-cl-positive">
                                             {carer.nome[0]}{carer.lastName[0]}
                                         </p>
                                         <div>

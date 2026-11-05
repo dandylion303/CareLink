@@ -155,8 +155,9 @@ const requestSchema = new Schema({
         otherStaff: {
             type: Boolean,
         },
-        experienceRequired: {
-            type: Boolean
+        basicTaskOnly: {
+            type: Boolean,
+            default: false
         }
     },
     ///////////////---BABYSITTER---///////////////
@@ -247,6 +248,18 @@ const requestSchema = new Schema({
         required: true,
         default: false
     },
+    serviceFee:{
+        type:Number, 
+        min:0,
+        required:function(){
+            if(statusRichiesta==='attiva'){
+                return true
+            } else {
+                return false
+            }
+        }
+    },
+
     publicDescription: {
         type: String,
         trim: true,

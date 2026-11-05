@@ -66,3 +66,29 @@ export const deleteWorker = async (req, res, next) => {
         next(error)
     }
 }
+
+export const addDocument = async (req, res, next)=>{
+    try {
+        const id = req.params.id
+        const singleWorker = await Worker.findOne({ _id: id, ...profileFilter(req.user) })
+        if (!singleWorker) {
+            res.status(404).json({ message: 'Carer non trovato' })
+        } else {
+            if(!req.file){
+                return res.status(400).json({message: 'nessun file caricato'})
+            }
+            singleWorker.documents.push({
+                docType: req.body.docType,
+                docNumber: req.body.docNumber,
+                scadenza: req.body.scadenza,
+                fileUrl: req.file.path,
+                publicId: req.file.filename
+            })
+            await singleWorker.save()
+            res.status(200).json(singleWorker)
+        }
+        
+    } catch (error) {
+        next(error)
+    }
+}

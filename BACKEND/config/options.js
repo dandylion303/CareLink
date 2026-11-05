@@ -68,23 +68,23 @@ export const certificazioni = [
 ]
 
 export const selfSufficientLevel = [
-    'Completamente Autosufficiente',
-    'Abbastanza autosufficiente',
-    'Non autosufficiente',
-    'disabile grave'
+    'completamenteAutosufficiente',
+    'abbastanzaAutosufficiente',
+    'nonAutosufficiente',
+    'disabileGrave'
 ]
 
 export const cognitiveState = [
     'lucido',
-    'primi deficit',
-    'demenza/alzheimer grave',
-    'disabile grave',
+    'primiDeficit',
+    'demenzaAlzheimerGrave',
+    'disabileGrave',
     'altro'
 ]
 
 export const mobility =[
     'autonomo',
-    'bastone/supporto',
+    'bastoneSupporto',
     'deambulatore',
     'carrozzina',
     'allettato'
@@ -103,11 +103,12 @@ export const livelliInquadramento = [
     'A',
     'AS',
     'B',
+    'BS',
     'C',
     'CS',
     'D',
     'DS',
-    'livello unico'
+    'livelloUnico'
 ]
 
 export const maggiorazioni = [
@@ -122,4 +123,12 @@ export const statusRichiesta = [
     'inProva',
     'Chiusa'
 
+]
+
+export const source =[
+    'social',
+    'google',
+    'cartelloni',
+    'volantino',
+    'passaparola'
 ]

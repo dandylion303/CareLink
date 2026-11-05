@@ -33,7 +33,7 @@ export const Layout = () => {
                         <nav className="nav flex-column">
                             <NavLink to='/' className='nav-link'>Home</NavLink>
                             <NavLink to='/carers' className='nav-link'>Carers</NavLink>
-                            <NavLink to='/famiglie' className='nav-link'>Famiglie</NavLink>
+                            <NavLink to='/family' className='nav-link'>Famiglie</NavLink>
                             <NavLink to='/requests' className='nav-link'>Richieste</NavLink>
                             <NavLink to='/simulatore' className='nav-link'>Simulatore</NavLink>
 

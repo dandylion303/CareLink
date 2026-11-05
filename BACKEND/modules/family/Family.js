@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { source } from "../../config/options.js";
 
 
 const { Schema, model } = mongoose
@@ -52,6 +53,10 @@ const familySchema = new Schema({
             uppercase: true,
             required: true
         }
+    },
+    source:{
+        type: String, 
+        enum: source,
     },
     sede: {
         type: mongoose.SchemaTypes.ObjectId,
