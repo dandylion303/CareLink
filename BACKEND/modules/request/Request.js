@@ -148,16 +148,22 @@ const requestSchema = new Schema({
 
     ///////////////---COLF---///////////////
     colfDetails: {
+        specificSkillsNeeded:{
+            type:String, 
+            enum:['si', 'no']
+        },
+
         specificCompetenceNeeded: {
-            type: String,
-            enum: ['cucina', 'giardino', 'autista']
+            type: [String],
+            enum: ['cucina', 'stiro', 'giardino', 'autista']
         },
         otherStaff: {
-            type: Boolean,
+            type: String,
+            enum:['si', 'no']
         },
-        basicTaskOnly: {
-            type: Boolean,
-            default: false
+        experienceLevel: {
+            type: String,
+            enum:['base','esperta'],
         }
     },
     ///////////////---BABYSITTER---///////////////

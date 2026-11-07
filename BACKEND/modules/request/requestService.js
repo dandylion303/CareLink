@@ -17,19 +17,16 @@ const getTable = (workRequest) => {
 }
 
 const getColfLevel = (colfDetails) => {
-    if (colfDetails?.otherStaff) {
-        return 'D'
-    }
-    if (colfDetails?.specificCompetenceNeeded?.length > 0) {
-        return 'C'
-    }
-    if (colfDetails?.basicTaskOnly === true) {
+    if (colfDetails?.experienceLevel === 'base') {
         return 'A'
     }
-
-    else {
-        return 'B'
+    if (colfDetails?.otherStaff==='si') {
+        return 'D'
     }
+    if (colfDetails?.specificSkillsNeeded ==='si' && colfDetails?.specificCompetenceNeeded?.length>0) {
+        return 'C'
+    }
+    return 'B'
 }
 
 // CS di base, DS se servono terapie o macchinari specifici

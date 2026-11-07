@@ -34,7 +34,7 @@ export const Layout = () => {
                             <NavLink to='/' className='nav-link'>Home</NavLink>
                             <NavLink to='/carers' className='nav-link'>Carers</NavLink>
                             <NavLink to='/family' className='nav-link'>Famiglie</NavLink>
-                            <NavLink to='/requests' className='nav-link'>Richieste</NavLink>
+                            <NavLink to='/request' className='nav-link'>Richieste</NavLink>
                             <NavLink to='/simulatore' className='nav-link'>Simulatore</NavLink>
 
                         </nav>

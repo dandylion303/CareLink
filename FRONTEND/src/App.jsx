@@ -3,6 +3,7 @@ import { Carers } from "./pages/Carers";
 import { Families } from "./pages/Families";
 import { NewCarerForm } from "./pages/NewCarerForm";
 import { NewFamilyForm } from "./pages/NewFamilyForm";
+import { NewRequestForm } from "./pages/NewRequestForm";
 import Dashboard from "./pages/Dashboard";
 import { Layout } from "./components/Layout";
 import { Route, Routes } from 'react-router-dom';
@@ -39,6 +40,9 @@ const App = () => {
           <Route
             path='family/new'
             element={<NewFamilyForm />} />
+          <Route
+            path='request/new'
+            element={<NewRequestForm/>}/>
         </Route>
       </Routes>
     </>
