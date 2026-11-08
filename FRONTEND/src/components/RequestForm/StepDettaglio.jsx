@@ -6,8 +6,11 @@ const hoursLimits = {
     nonConvivente: { min: 1, max: 40, label: 'Non Convivente' },
 }
 
+const today = new Date().toISOString().split('T')[0]
+
 export const StepDettaglio = ({ register, errors, watch }) => {
     const durationType = watch('durationType')
+    const startDate = watch('startDate')
 
     return (
         <>
@@ -50,6 +53,7 @@ export const StepDettaglio = ({ register, errors, watch }) => {
                         <input
                             className="form-control"
                             type='date'
+                            min={today}
                             {...register('startDate', { required: 'Campo obbligatorio' })}
                         />
                         {errors.startDate && <p className='text-danger small mb-0'>{errors.startDate.message}</p>}
@@ -61,6 +65,7 @@ export const StepDettaglio = ({ register, errors, watch }) => {
                             <input
                                 className="form-control"
                                 type='date'
+                                min={startDate || today}
                                 {...register('endDate', { required: 'Campo obbligatorio per rapporti a tempo determinato' })}
                             />
                             {errors.endDate && <p className='text-danger small mb-0'>{errors.endDate.message}</p>}

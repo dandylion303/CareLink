@@ -4,7 +4,7 @@ import { profileFilter } from "../../utils/sedeFilter.js"
 
 export const getAllFamilies = async (req, res, next) => {
     try {
-        const allFamilies = await Family.find(profileFilter(req.user))
+        const allFamilies = await (await Family.find(profileFilter(req.user)).sort({customerLastname:1}))
         res.status(200).json(allFamilies)
     } catch (error) {
         next(error)

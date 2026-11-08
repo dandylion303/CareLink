@@ -31,7 +31,7 @@ const getColfLevel = (colfDetails) => {
 
 // CS di base, DS se servono terapie o macchinari specifici
 const getCareLevel = (badanteDetails) => {
-    if (badanteDetails?.specialNeeds) return 'DS'
+    if (badanteDetails?.hasSpecialNeeds==='si') return 'DS'
     return 'CS'
 }
 
@@ -116,11 +116,19 @@ const getIndennita = (data, table, level) => {
 
 export const calculateInquadramento = (data) => {
     const level = getLevel(data)
-    const table = checkTable(getTable(data.workRequest), level, data.oreSettimanali)
-    const indennita = getIndennita(data, table, level)
+    const table = getTable(data.workRequest)
+        if(table ==='D' && level ==='AS'){
+            return{
+                inquadramento: 'E',
+                livello: 'livelloUnico',
+                maggiorazioni: []
+            }
+        }
+    const finalTable = checkTable(table, level, data.oreSettimanali)
+    const indennita = getIndennita(data, finalTable, level)
 
     return {
-        inquadramento: table,
+        inquadramento: finalTable,
         livello: level,
         maggiorazioni: indennita,
     }

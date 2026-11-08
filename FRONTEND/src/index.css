@@ -98,6 +98,17 @@ a{
 
 
 /* -------PERSONALIZZAZIONI GENERALI-------*/
+.form-check-input:checked{
+  background-color: var(--cl-primary);
+  border-color: var(--cl-primary);
+}
+
+.form-control:focus
+.form-select:focus{
+  border-color:#145A5A;
+  box-shadow: rgba(19, 79, 79, 0.25);
+}
+
 .mainHeader{
   background-color: var(--cl-positive-bg);
   margin-bottom: 15px

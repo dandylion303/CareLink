@@ -62,12 +62,30 @@ export const Requests = () => {
         return (<p className="text-cl-secondary">La lista è vuota</p>)
     }
 
+    const activateRequest = async(id)=>{
+        try {
+            const token = localStorage.getItem('token')
+            const response = await fetch(`${URL}/requests/${id}`, {
+                method:'PATCH',
+                headers:{
+                    'Authorization':`Bearer ${token}`,
+                    'Content-type':'application/json'},
+                body:JSON.stringify({statusRichiesta: 'attiva'})
+            })
+            const result = await response.json()
+            if(!response.ok){
+                setErrorMessage(result.message)
+            } else {navigate('/request')}
+        } catch (error) {
+            setErrorMessage('Server non raggiungibile')
+        }
+    }
 
     return (
         <>
             <div className="d-flex justify-content-between mb-3">
                 <h1 className=" h3 text-start text-cl-primary">Abbiamo {requests.length} ricerche in corso:</h1>
-                <Link to='/family/new' className="btn btn-primary">+ Intermediazione</Link>
+                <Link to='/request/new' className="btn btn-primary">+ Intermediazione</Link>
             </div>
             <div className="bg-cl-surface border border-cl rounded-3 overflow-hidden">
                 <Table hover responsive className='align-middle mb-0'>
@@ -94,7 +112,11 @@ export const Requests = () => {
                                         </div>
                                     </div>
                                 </td>
+                                <td>{request.serviceType}</td>
+                                <td>{request.workRequest}</td>
+                                <td>{request.livello}</td>
                                 <td>{request.workAddress.city}</td>
+                                <td>{request.statusRichiesta}</td>
                             </tr>
                         ))}
 

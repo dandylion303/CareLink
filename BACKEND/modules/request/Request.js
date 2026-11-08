@@ -213,8 +213,9 @@ const requestSchema = new Schema({
             enum: mobility,
             required: isBadante
         },
-        specialNeeds: {
-            type: Boolean
+        hasSpecialNeeds: {
+            type: String,
+            enum:['si', 'no']
         },
         therapiesDetail: {
             type: String,
@@ -259,7 +260,7 @@ const requestSchema = new Schema({
         type:Number, 
         min:0,
         required:function(){
-            if(statusRichiesta==='attiva'){
+            if(this.statusRichiesta==='attiva'){
                 return true
             } else {
                 return false

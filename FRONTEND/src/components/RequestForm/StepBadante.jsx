@@ -1,7 +1,15 @@
 import { Row, Col } from 'react-bootstrap'
+
+
 export const StepBadante = ({ register, errors, watch }) => {
     const hasSpecialNeeds = watch('badanteDetails.hasSpecialNeeds')
     const hasSpecialDiet = watch('badanteDetails.hasSpecialDiet')
+    const selfSufficientLevel = watch('badanteDetails.selfSufficientLevel')
+    const cognitiveState = watch('badanteDetails.cognitiveState')
+
+    const isFullySelfSufficient = selfSufficientLevel === 'completamenteAutosufficiente'
+    const isPartlySelfSufficient = selfSufficientLevel === 'abbastanzaAutosufficiente'
+    const isNotSelfSufficientButLucid = selfSufficientLevel === 'nonAutosufficiente' && cognitiveState === 'lucido'
     return (
         <>
             <fieldset className="bg-cl-surface border border-cl rounded-3 p-4 my-4">
@@ -65,9 +73,15 @@ export const StepBadante = ({ register, errors, watch }) => {
                             <option value="">Seleziona</option>
                             <option value="lucido">Lucido</option>
                             <option value="primiDeficit">Primi Deficit Cognitivi</option>
-                            <option value="demenzaAlzheimerGrave">Demenza o Alzheimer avanzati</option>
-                            <option value="disabileGrave">Disabilità Grave</option>
-                            <option value="altro">altro</option>
+                            {!isFullySelfSufficient && !isPartlySelfSufficient && (
+                                <>
+                                    <option value="demenzaAlzheimerGrave">Demenza o Alzheimer avanzati</option>
+                                    <option value="disabileGrave">Disabilità Grave</option>
+                                </>
+                            )}
+                            {!isFullySelfSufficient && (
+                                <option value="altro">Altro</option>
+                            )}
                         </select>
                         {errors.badanteDetails?.cognitiveState && <p className='text-danger small mb-0'>{errors.badanteDetails?.cognitiveState.message}</p>}
                     </Col>
@@ -77,11 +91,19 @@ export const StepBadante = ({ register, errors, watch }) => {
                             className="form-select"
                             {...register('badanteDetails.mobility', { required: 'Campo obbligatorio' })}>
                             <option value="">Seleziona</option>
-                            <option value="autonomo">Completamente Autonomo</option>
+                            {!isNotSelfSufficientButLucid && (
+                                <option value="autonomo">Completamente Autonomo</option>
+                            )}
                             <option value="bastoneSupporto">Necessita bastone o supporto occasionali</option>
-                            <option value="deambulatore">Solo con deambulatore</option>
-                            <option value="carrozzina">In carrozzina</option>
-                            <option value="allettato">Allettato</option>
+                            {!isFullySelfSufficient && (
+                                <option value="deambulatore">Solo con deambulatore</option>
+                            )}
+                            {!isFullySelfSufficient && !isPartlySelfSufficient && (
+                                <>
+                                    <option value="carrozzina">In carrozzina</option>
+                                    <option value="allettato">Allettato</option>
+                                </>
+                            )}
                         </select>
                         {errors.badanteDetails?.mobility && <p className='text-danger small mb-0'>{errors.badanteDetails?.mobility.message}</p>}
                     </Col>
@@ -162,9 +184,11 @@ export const StepBadante = ({ register, errors, watch }) => {
                             />}
                     </Col>
                 </Row>
-                <fieldset className="bg-cl-surface border border-cl rounded-3 p-4 my-4">
-                    <legend className="h5 mb-3">La Notte</legend>
-                    <Row>
+
+            </fieldset>
+            <fieldset className="bg-cl-surface border border-cl rounded-3 p-4 my-4">
+                <legend className="h5 mb-3">La Notte</legend>
+                <Row>
                     <Col sm={12}>
                         <label className="form-label">Dorme durante la notte?:</label>
                         <select
@@ -178,7 +202,6 @@ export const StepBadante = ({ register, errors, watch }) => {
                         {errors.badanteDetails?.sleepsAtNight && <p className='text-danger small mb-0'>{errors.badanteDetails?.sleepsAtNight.message}</p>}
                     </Col>
                 </Row>
-                </fieldset>
             </fieldset>
         </>
     )
