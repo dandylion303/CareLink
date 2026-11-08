@@ -225,7 +225,8 @@ const requestSchema = new Schema({
             trim: true,
         },
         sleepsAtNight: {
-            type: Boolean
+            type: String,
+            enum: ['si', 'no', 'saltuariamente']
         }
     },
     ///////////////---DATI GENERICI---///////////////
