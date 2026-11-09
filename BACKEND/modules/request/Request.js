@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { regimes, jobTypes, selfSufficientLevel, cognitiveState, mobility, tabelleInquadramento, livelliInquadramento, maggiorazioni, statusRichiesta } from "../../config/options.js"
+import { regimes, jobTypes, selfSufficientLevel, cognitiveState, mobility, tabelleInquadramento, livelliInquadramento, maggiorazioni, statusRichiesta, ageRange } from "../../config/options.js"
 
 const isBabySitter = function () {
     if (this.serviceType === 'babysitter') {
@@ -194,8 +194,9 @@ const requestSchema = new Schema({
             trim: true,
             required: isBadante
         },
-        birthDate: {
-            type: Date,
+        ageRange: {
+            type: String,
+            enum: ageRange,
             required: isBadante,
         },
         selfSufficientLevel: {

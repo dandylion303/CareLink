@@ -33,8 +33,10 @@ export const login = async (req, res, next) => {
         const token = jwt.sign({ id:user._id, role:user.role, sede:user.sede },
             process.env.JWT_SECRET,
             { expiresIn: process.env.JWT_EXPIRES_IN })
-        res.status(200).json({token})
-
+        res.status(200).json({
+            token,
+            user:{role:user, sede:user.sede}})
+            localStorage.setItem('user', JSON.stringify(result.user))
 
     } catch (error) {
         next(error)

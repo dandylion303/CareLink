@@ -67,6 +67,11 @@ a{
   opacity: 0.65;
 }
 
+.btn-primary-light{
+  background-color: #d9e3e3!important;
+}
+
+
 /*----------status labels------- */
 .badge-positive {
   color: var(--cl-positive-text);
@@ -160,3 +165,13 @@ a{
   align-items: center;
 }
 
+/* -------BADGE REQUESTS-------*/
+.badgeAttiva{
+  background-color: #f3bc9f;
+}
+.badgeChiusa{
+  background-color: #5a5b5e;
+}
+.badgeInProva{
+  background-color: #d1ddb0;
+}

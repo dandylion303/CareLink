@@ -5,9 +5,11 @@ import { NewCarerForm } from "./pages/NewCarerForm";
 import { NewFamilyForm } from "./pages/NewFamilyForm";
 import { NewRequestForm } from "./pages/NewRequestForm";
 import { Requests } from "./pages/Requests";
+import { RequestEdit } from "./pages/RequestEdit";
 import Dashboard from "./pages/Dashboard";
 import { Layout } from "./components/Layout";
 import { Route, Routes } from 'react-router-dom';
+import { RequestDetailPage } from "./pages/RequestDetailPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
@@ -47,6 +49,13 @@ const App = () => {
           <Route
             path='request'
             element={<Requests/>}/>
+          <Route
+            path='request/:id'
+            element={<RequestDetailPage/>}/>
+          <Route
+            path='request/:id/edit'
+            element={<RequestEdit/>}/>
+          
             
         </Route>
       </Routes>

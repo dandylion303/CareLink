@@ -2,7 +2,8 @@ import { useState } from "react"
 import { useEffect } from "react"
 import { Spinner, Table, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
-
+import { StatusBadge } from "../components/StatusBadge";
+import { Info } from 'lucide-react'
 
 const URL = import.meta.env.VITE_API_URL
 
@@ -10,34 +11,38 @@ export const Requests = () => {
     const [requests, setRequests] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [errorMessage, setErrorMessage] = useState('')
-    useEffect(() => {
-        const getRequests = async () => {
-            try {
-                const token = localStorage.getItem('token')
-                if (!token) {
-                    setErrorMessage("Non hai l'autorizzazione per fare questo")
-                    return
-                }
-                const response = await fetch(`${URL}/requests`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-type': 'application/json'
-                    },
-                })
-                const result = await response.json()
-                if (!response.ok) {
-                    setErrorMessage(result.message)
-                } else {
-                    setRequests(result)
-                }
-            } catch (error) {
-                setErrorMessage("Server non raggiungibile")
-                console.log(error)
+    const user = JSON.parse(localStorage.getItem('user'))
 
-            } finally {
-                setIsLoading(false)
+    const getRequests = async () => {
+        try {
+            const token = localStorage.getItem('token')
+            if (!token) {
+                setErrorMessage("Non hai l'autorizzazione per fare questo")
+                return
             }
+            const response = await fetch(`${URL}/requests`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-type': 'application/json'
+                },
+            })
+            const result = await response.json()
+            if (!response.ok) {
+                setErrorMessage(result.message)
+            } else {
+                setRequests(result)
+            }
+        } catch (error) {
+            setErrorMessage("Server non raggiungibile")
+            console.log(error)
+
+        } finally {
+            setIsLoading(false)
         }
+    }
+
+
+    useEffect(() => {
         getRequests()
     }, [])
 
@@ -62,20 +67,21 @@ export const Requests = () => {
         return (<p className="text-cl-secondary">La lista è vuota</p>)
     }
 
-    const activateRequest = async(id)=>{
+    const activateRequest = async (id) => {
         try {
             const token = localStorage.getItem('token')
             const response = await fetch(`${URL}/requests/${id}`, {
-                method:'PATCH',
-                headers:{
-                    'Authorization':`Bearer ${token}`,
-                    'Content-type':'application/json'},
-                body:JSON.stringify({statusRichiesta: 'attiva'})
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({ statusRichiesta: 'Attiva' })
             })
             const result = await response.json()
-            if(!response.ok){
+            if (!response.ok) {
                 setErrorMessage(result.message)
-            } else {navigate('/request')}
+            } else { getRequests() }
         } catch (error) {
             setErrorMessage('Server non raggiungibile')
         }
@@ -85,7 +91,7 @@ export const Requests = () => {
         <>
             <div className="d-flex justify-content-between mb-3">
                 <h1 className=" h3 text-start text-cl-primary">Abbiamo {requests.length} ricerche in corso:</h1>
-                <Link to='/request/new' className="btn btn-primary">+ Intermediazione</Link>
+                {user?.role === 'sede' && (<Link to='/request/new' className="btn btn-primary">+ Intermediazione</Link>)}
             </div>
             <div className="bg-cl-surface border border-cl rounded-3 overflow-hidden">
                 <Table hover responsive className='align-middle mb-0'>
@@ -97,6 +103,7 @@ export const Requests = () => {
                             <th>Livello</th>
                             <th>Città</th>
                             <th>status</th>
+                            <th>info</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -116,7 +123,10 @@ export const Requests = () => {
                                 <td>{request.workRequest}</td>
                                 <td>{request.livello}</td>
                                 <td>{request.workAddress.city}</td>
-                                <td>{request.statusRichiesta}</td>
+                                <td><StatusBadge status={request.statusRichiesta} /></td>
+                                <td><Link to={`/request/${request._id}`} className="btn btn-sm btn-primary-light">
+                                    <Info size={16} />
+                                </Link></td>
                             </tr>
                         ))}
 

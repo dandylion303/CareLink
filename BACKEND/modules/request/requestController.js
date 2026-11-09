@@ -20,7 +20,7 @@ export const createRequest = async (req, res, next) => {
             return res.status(404).json({ message: 'famiglia non trovata' })
         } else {
             const calculated = calculateInquadramento(req.body)
-            const newRequest = await Request.create({ ...req.body,...calculated, sede: req.user.sede })
+            const newRequest = await Request.create({ ...req.body, ...calculated, sede: req.user.sede })
             res.status(201).json(newRequest)
         }
     } catch (error) {
@@ -31,7 +31,7 @@ export const createRequest = async (req, res, next) => {
 export const getSingleRequest = async (req, res, next) => {
     try {
         const id = req.params.id
-        const singleRequest = await Request.findOne({ _id: id, ...profileFilter(req.user) })
+        const singleRequest = await Request.findOne({ _id: id, ...profileFilter(req.user) }).populate('famiglia', 'customerName customerLastname phone email')        
         if (!singleRequest) {
             res.status(404).json({ message: 'Richiesta non trovata' })
         } else {
@@ -61,13 +61,13 @@ export const updateRequest = async (req, res, next) => {
 }
 
 
-export const deleteRequest = async (req, res, next)=>{
+export const deleteRequest = async (req, res, next) => {
     try {
         const id = req.params.id
-        const deletedRequest = await Request.findOneAndDelete({_id:id, ...profileFilter(req.user)})
-        if(!deletedRequest){
-            res.status(404).json({message:'Nessuna richiesta da cancellare'})
-        }else{
+        const deletedRequest = await Request.findOneAndDelete({ _id: id, ...profileFilter(req.user) })
+        if (!deletedRequest) {
+            res.status(404).json({ message: 'Nessuna richiesta da cancellare' })
+        } else {
             res.status(204).send()
         }
     } catch (error) {

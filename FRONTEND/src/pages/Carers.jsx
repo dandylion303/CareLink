@@ -10,6 +10,7 @@ export const Carers = () => {
     const [carers, setCarers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [errorMessage, setErrorMessage] = useState('')
+    const user = JSON.parse(localStorage.getItem('user'))
     useEffect(() => {
         const getCarers = async () => {
             try {
@@ -66,7 +67,7 @@ export const Carers = () => {
         <>
             <div className="d-flex justify-content-between mb-3">
                 <h1 className=" h3 text-start text-cl-primary">Abbiamo {carers.length} Carer da proporre:</h1>
-                <Link to='/carers/new' className="btn btn-primary">+ Carer</Link>
+                {user?.role==='sede'&&(<Link to='/carers/new' className="btn btn-primary">+ Carer</Link>)}
             </div>
             <div className="bg-cl-surface border border-cl rounded-3 overflow-hidden">
                 <Table hover responsive className='align-middle mb-0'>

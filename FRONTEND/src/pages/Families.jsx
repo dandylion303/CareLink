@@ -10,6 +10,7 @@ export const Families = () => {
     const [families, setFamilies] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [errorMessage, setErrorMessage] = useState('')
+    const user = JSON.parse(localStorage.getItem('user'))
     useEffect(() => {
         const getFamilies = async () => {
             try {
@@ -67,7 +68,7 @@ export const Families = () => {
         <>
             <div className="d-flex justify-content-between mb-3">
                 <h1 className=" h3 text-start text-cl-primary">Abbiamo {families.length} famiglie da aiutare:</h1>
-                <Link to='/family/new' className="btn btn-primary">+ Famiglia</Link>
+                {user?.role === 'sede' && (<Link to='/family/new' className="btn btn-primary">+ Famiglia</Link>)}
             </div>
             <div className="bg-cl-surface border border-cl rounded-3 overflow-hidden">
                 <Table hover responsive className='align-middle mb-0'>

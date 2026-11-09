@@ -90,6 +90,15 @@ export const mobility =[
     'allettato'
 ]
 
+export const ageRange = [
+    '0-16',
+    '17-35',
+    '36-50',
+    '51-70',
+    '71-90',
+    '91+'
+]
+
 export const tabelleInquadramento = [
     'A',
     'B',

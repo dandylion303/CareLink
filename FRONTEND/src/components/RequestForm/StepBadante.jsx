@@ -27,12 +27,18 @@ export const StepBadante = ({ register, errors, watch }) => {
                     </Col>
                     <Col sm={6}>
                         <label className="form-label">Età assistito</label>
-                        <input
-                            type='date'
-                            className='form-control'
-                            {...register('badanteDetails.birthDate', { required: 'Campo obbligatorio' })}
-                        />
-                        {errors.badanteDetails?.birthDate && <p className='text-danger small mb-0'>{errors.badanteDetails?.birthDate.message}</p>}
+                        <select
+                            className="form-select"
+                            {...register('badanteDetails.ageRange', { required: 'Campo obbligatorio' })}>
+                            <option value="">Seleziona</option>
+                            <option value="0-16">0-16 anni</option>
+                            <option value="17-35">17-35 anni</option>
+                            <option value="36-50">36-50 anni</option>
+                            <option value="51-70">51-70 anni</option>
+                            <option value="71-90">71-90 anni</option>
+                            <option value="91+">+91 anni</option>
+                        </select>
+                        {errors.badanteDetails?.ageRange && <p className='text-danger small mb-0'>{errors.badanteDetails?.ageRange.message}</p>}
 
                     </Col>
                     <Col sm={12}>

@@ -5,11 +5,16 @@ import { useNavigate } from "react-router-dom";
 
 export const Layout = () => {
     const navigate = useNavigate()
+    const token = localStorage.getItem('token')
+
 
     const handleLogout = () => {
         localStorage.removeItem('token')
+        localStorage.removeItem('user')
         navigate('/login')
     }
+        
+    
 
     return (
         <>
@@ -21,10 +26,11 @@ export const Layout = () => {
                         Care<em className="text-cl-primary">Link</em>
                     </Link>
                 </span>
-                <Button
+                {!token && (<Link to={'/login'} className="btn btn-primary">Login</Link>)}
+                {token && (<Button
                     onClick={handleLogout}>
                     Esci
-                </Button>
+                </Button>)}
             </header>
 {/*/////////----CONTENUTO----///////////////*/}     
             <Container fluid>
