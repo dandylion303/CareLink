@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { Spinner, Row, Col, Button } from 'react-bootstrap'
-import { StatusBadge } from "../components/StatusBadge"
+import { StatusBadge } from '../../components/StatusBadge'
 import { ArrowLeft, SquarePen } from "lucide-react"
 
 const URL = import.meta.env.VITE_API_URL
@@ -14,6 +14,7 @@ export const RequestDetailPage = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [errorMessage, setErrorMessage] = useState('')
     const [newStatus, setNewStatus] = useState('')
+    const [matches, setMatches] = useState([])
 
     const getRequest = async () => {
         try {
@@ -42,6 +43,21 @@ export const RequestDetailPage = () => {
         }
     }
 
+    const getMatches = async () => {
+        try {
+            const token = localStorage.getItem('token')
+            const response = await fetch(`${URL}/matching/${id}`, {
+                headers: { 'Authorization': `Bearer ${token}` },
+            })
+            const result = await response.json()
+            if (response.ok) {
+                setMatches(result)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const updateStatus = async () => {
         try {
             const token = localStorage.getItem('token')
@@ -66,8 +82,11 @@ export const RequestDetailPage = () => {
         }
     }
 
+
+
     useEffect(() => {
         getRequest()
+        getMatches()
     }, [id])
 
     if (isLoading) {
@@ -261,6 +280,8 @@ export const RequestDetailPage = () => {
                     </div>
                 </Col>
             </Row>
+            <h2>Le Carer più adatte</h2>
+            <p>{matches.length} Carer Trovate</p>
 
 
 

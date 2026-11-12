@@ -32,7 +32,9 @@ export const skills = [
     'punture',
     'pressione', 
     'glicemia', 
-    'cucinare', 
+    'cucinare',
+    'stirare',
+    'giardinaggio', 
     'sollevatore', 
     'ossigeno', 
     'giocareACarte'

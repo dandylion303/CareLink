@@ -1,11 +1,11 @@
-import { StepBase } from "../components/RequestForm/StepBase";
-import { StepDettaglio } from "../components/RequestForm/StepDettaglio";
-import { StepColf } from "../components/RequestForm/StepColf";
-import { StepBabysitter } from "../components/RequestForm/StepBabysitter";
-import { StepBadante } from "../components/RequestForm/StepBadante";
-import { FamilySelect } from "../components/RequestForm/FamilySelect";
-import { StepRichiesteSpecifiche } from "../components/RequestForm/StepRichiesteSpecifiche";
-import { StepGestioneIntermediazione } from "../components/RequestForm/StepGestioneIntermediazione";
+import { StepBase } from "../../components/RequestForm/StepBase";
+import { StepDettaglio } from "../../components/RequestForm/StepDettaglio";
+import { StepColf } from "../../components/RequestForm/StepColf";
+import { StepBabysitter } from "../../components/RequestForm/StepBabysitter";
+import { StepBadante } from "../../components/RequestForm/StepBadante";
+import { FamilySelect } from "../../components/RequestForm/FamilySelect";
+import { StepRichiesteSpecifiche } from "../../components/RequestForm/StepRichiesteSpecifiche";
+import { StepGestioneIntermediazione } from "../../components/RequestForm/StepGestioneIntermediazione";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";

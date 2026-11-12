@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Form, Container, Row, Col, Button, Card } from "react-bootstrap";
+import { Container, Row, Col, Button, Card } from "react-bootstrap";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -32,7 +32,7 @@ export const Login = () => {
                 setErrorMessage(result.message)
             } else {
                 localStorage.setItem('token', result.token)
-                
+                localStorage.setItem('user', JSON.stringify(result.user))
                 navigate('/')
 
             }

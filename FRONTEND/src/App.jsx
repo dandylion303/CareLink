@@ -1,15 +1,15 @@
 import { Login } from "./pages/Login";
-import { Carers } from "./pages/Carers";
-import { Families } from "./pages/Families";
-import { NewCarerForm } from "./pages/NewCarerForm";
-import { NewFamilyForm } from "./pages/NewFamilyForm";
-import { NewRequestForm } from "./pages/NewRequestForm";
-import { Requests } from "./pages/Requests";
-import { RequestEdit } from "./pages/RequestEdit";
+import { Carers } from "./pages/carers/Carers";
+import { Families } from "./pages/families/Families";
+import { NewCarerForm } from "./pages/carers/NewCarerForm";
+import { NewFamilyForm } from "./pages/families/NewFamilyForm";
+import { NewRequestForm } from "./pages/requests/NewRequestForm";
+import { Requests } from "./pages/requests/Requests";
+import { RequestEdit } from "./pages/requests/RequestEdit";
 import Dashboard from "./pages/Dashboard";
 import { Layout } from "./components/Layout";
 import { Route, Routes } from 'react-router-dom';
-import { RequestDetailPage } from "./pages/RequestDetailPage";
+import { RequestDetailPage } from "./pages/requests/RequestDetailPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {

@@ -2,13 +2,13 @@ import { Container, Row, Col, Spinner, Button, Alert } from 'react-bootstrap'
 import { useParams, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
-import { StepDettaglio } from "../components/RequestForm/StepDettaglio"
-import { StepBase } from "../components/RequestForm/StepBase"
-import { StepColf } from "../components/RequestForm/StepColf"
-import { StepBabysitter } from "../components/RequestForm/StepBabysitter"
-import { StepBadante } from "../components/RequestForm/StepBadante"
-import { StepRichiesteSpecifiche } from "../components/RequestForm/StepRichiesteSpecifiche"
-import { StepGestioneIntermediazione } from "../components/RequestForm/StepGestioneIntermediazione"
+import { StepDettaglio } from "../../components/RequestForm/StepDettaglio"
+import { StepBase } from "../../components/RequestForm/StepBase"
+import { StepColf } from "../../components/RequestForm/StepColf"
+import { StepBabysitter } from "../../components/RequestForm/StepBabysitter"
+import { StepBadante } from "../../components/RequestForm/StepBadante"
+import { StepRichiesteSpecifiche } from "../../components/RequestForm/StepRichiesteSpecifiche"
+import { StepGestioneIntermediazione } from "../../components/RequestForm/StepGestioneIntermediazione"
 
 const URL = import.meta.env.VITE_API_URL
 

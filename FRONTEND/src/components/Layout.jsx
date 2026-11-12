@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export const Layout = () => {
     const navigate = useNavigate()
+    const user = JSON.parse(localStorage.getItem('user'))
     const token = localStorage.getItem('token')
 
 
@@ -13,12 +14,12 @@ export const Layout = () => {
         localStorage.removeItem('user')
         navigate('/login')
     }
-        
-    
+
+
 
     return (
         <>
-{/*/////////----HEADER----/////////////////*/}
+            {/*/////////----HEADER----/////////////////*/}
 
             <header className="mainHeader d-flex justify-content-between align-items-center px-4 py-3">
                 <span className="h1">
@@ -26,13 +27,23 @@ export const Layout = () => {
                         Care<em className="text-cl-primary">Link</em>
                     </Link>
                 </span>
-                {!token && (<Link to={'/login'} className="btn btn-primary">Login</Link>)}
-                {token && (<Button
-                    onClick={handleLogout}>
-                    Esci
-                </Button>)}
+
+                <div className="d-flex align-items-center gap-3">
+                    {user?.role === 'admin'
+                        ? <p className="small">Admin</p>
+                        : <div className="small text-cl-primary text-end">
+                            <p className="mb-0"> Sede: {user?.sedeName}</p>
+                            <p className="mb-0">Email: {user?.email}</p>
+                        </div>}
+                    {!token && (<Link to={'/login'} className="btn btn-primary">Login</Link>)}
+                    {token && (<Button
+                        onClick={handleLogout}>
+                        Esci
+                    </Button>)}
+
+                </div>
             </header>
-{/*/////////----CONTENUTO----///////////////*/}     
+            {/*/////////----CONTENUTO----///////////////*/}
             <Container fluid>
                 <Row>
                     <Col md={3} lg={2}>

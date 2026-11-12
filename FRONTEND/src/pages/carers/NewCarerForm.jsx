@@ -365,6 +365,14 @@ export const NewCarerForm = () => {
                             <label className="form-check-label">Cucinare</label>
                         </div>
                         <div className="form-check form-check-inline">
+                            <input type="checkbox" value='stirare' className="form-check-input" {...register('skills')} />
+                            <label className="form-check-label">Stirare</label>
+                        </div>
+                        <div className="form-check form-check-inline">
+                            <input type="checkbox" value='giardinaggio' className="form-check-input" {...register('skills')} />
+                            <label className="form-check-label">Giardinaggio</label>
+                        </div>
+                        <div className="form-check form-check-inline">
                             <input type="checkbox" value='sollevatore' className="form-check-input" {...register('skills')} />
                             <label className="form-check-label">Sollevatore</label>
                         </div>

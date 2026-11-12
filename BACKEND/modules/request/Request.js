@@ -155,7 +155,7 @@ const requestSchema = new Schema({
 
         specificCompetenceNeeded: {
             type: [String],
-            enum: ['cucina', 'stiro', 'giardino', 'autista']
+            enum: ['cucinare', 'stirare', 'giardinaggio', 'autista']
         },
         otherStaff: {
             type: String,

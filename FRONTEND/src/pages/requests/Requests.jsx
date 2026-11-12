@@ -1,8 +1,8 @@
 import { useState } from "react"
 import { useEffect } from "react"
-import { Spinner, Table, Button } from 'react-bootstrap';
+import { Spinner, Table } from 'react-bootstrap';
 import { Link } from "react-router-dom";
-import { StatusBadge } from "../components/StatusBadge";
+import { StatusBadge } from "../../components/StatusBadge";
 import { Info } from 'lucide-react'
 
 const URL = import.meta.env.VITE_API_URL
@@ -67,25 +67,6 @@ export const Requests = () => {
         return (<p className="text-cl-secondary">La lista è vuota</p>)
     }
 
-    const activateRequest = async (id) => {
-        try {
-            const token = localStorage.getItem('token')
-            const response = await fetch(`${URL}/requests/${id}`, {
-                method: 'PATCH',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify({ statusRichiesta: 'Attiva' })
-            })
-            const result = await response.json()
-            if (!response.ok) {
-                setErrorMessage(result.message)
-            } else { getRequests() }
-        } catch (error) {
-            setErrorMessage('Server non raggiungibile')
-        }
-    }
 
     return (
         <>

@@ -1,7 +1,6 @@
 import bcrypt from 'bcryptjs'
 import User from '../user/User.js'
 import jwt from 'jsonwebtoken'
-import { Error } from 'mongoose'
 
 export const createUser = async (req, res, next) => {
     try {
@@ -19,7 +18,7 @@ export const login = async (req, res, next) => {
         if(!email||!password){
             return res.status(400).json({message:'email e password sono obbligatorie'})
         }
-        const user = await User.findOne({ email }).select('+password')
+        const user = await User.findOne({ email }).select('+password').populate('sede','name')
         if (!user) {
             return res.status(401).json({ message: 'credenziali non valide' })
         }
@@ -30,13 +29,15 @@ export const login = async (req, res, next) => {
         if(!user.isActive){
             return res.status(403).json({message: 'utente non attivo'})
         }
-        const token = jwt.sign({ id:user._id, role:user.role, sede:user.sede },
+        const token = jwt.sign({ id:user._id, role:user.role, sede:user.sede?._id },
             process.env.JWT_SECRET,
             { expiresIn: process.env.JWT_EXPIRES_IN })
         res.status(200).json({
             token,
-            user:{role:user, sede:user.sede}})
-            localStorage.setItem('user', JSON.stringify(result.user))
+            user:{
+                role:user.role, 
+                sedeName:user.sede?.name,
+                email: user.email}})
 
     } catch (error) {
         next(error)
