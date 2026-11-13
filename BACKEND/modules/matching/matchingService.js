@@ -3,7 +3,7 @@ import matchingCriteri from "../../config/matchingCriteri.js"
 export const matchingRegime = (request, worker) => {
     const max = matchingCriteri.regime
     if (worker.regimes.includes(request.workRequest)) {
-        return { points: max, max: max, reason: 'il regime richiesto dalla famiglia è tra quelli accettati dalla Carer' }
+        return { points: max, max: max, reason: 'Regime compatibile' }
     } else {
         return {
             points: 0,

@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { Spinner, Row, Col, Button } from 'react-bootstrap'
+import { Spinner, Row, Col, Button, Card } from 'react-bootstrap'
 import { StatusBadge } from '../../components/StatusBadge'
 import { ArrowLeft, SquarePen } from "lucide-react"
 
@@ -236,7 +236,7 @@ export const RequestDetailPage = () => {
                             <Row>
                                 <Col md={6}>
                                     <p className="mb-1"><span className="text-cl-secondary">Nome:</span> {request.badanteDetails?.mainAssistedName}</p>
-                                    <p className="mb-1"><span className="text-cl-secondary">Età:</span> {formatDate(request.badanteDetails?.ageRange)}</p>
+                                    <p className="mb-1"><span className="text-cl-secondary">Età:</span> {request.badanteDetails?.ageRange}</p>
                                     <p className="mb-1"><span className="text-cl-secondary">Assistiti non autosufficienti:</span> {request.badanteDetails?.numberOfAssisted}</p>
                                     <p className="mb-1"><span className="text-cl-secondary">Autosufficienza:</span> {request.badanteDetails?.selfSufficientLevel}</p>
                                     <p className="mb-1"><span className="text-cl-secondary">Stato cognitivo:</span> {request.badanteDetails?.cognitiveState}</p>
@@ -280,10 +280,45 @@ export const RequestDetailPage = () => {
                     </div>
                 </Col>
             </Row>
-            <h2>Le Carer più adatte</h2>
-            <p>{matches.length} Carer Trovate</p>
+            <Row>
+                <h2>Carer da proporre:</h2>
+                {matches.length===0
+                    ? <p className="small text-muted text-capitalize">Non ci sono Carers per questa richiesta</p>
+                    : matches.map((match) => (
+                        <Card key={match.worker._id} className="mx-1 mb-4 bg-cl-surface border border-cl rounded-3">
+                            <Card.Body>
+                                <Col className="d-flex justify-content-between align-items-center">
+                                    <div className="d-flex align-items-center gap-3">
+                                        <div>
+                                            <p className="round-initials me-3 mb-0 border rounded-circle bg-cl-positive">
+                                                {match.worker.nome[0]}{match.worker.lastName[0]}
+                                            </p>
+                                        </div>
+                                        <div>
+                                            <Card.Title className="text-capitalize fw-bold fs-4">{match.worker.nome} {match.worker.lastName}</Card.Title>
+                                            <Card.Subtitle className="mb-2 text-muted text-uppercase">{match.worker.city} {match.worker.phone}</Card.Subtitle>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p className="h1 text-cl-match">{match.percentage}%</p>
+                                    </div>
+                                </Col>
+                                <div className="d-flex justify-content-between">
+                                    <Card.Text>
+                                        {match.reasons.map((reason) => (
+                                            <span key={reason} className="badge rounded-pill bg-cl-positive mx-1">{reason}</span>
+                                        ))}
+                                    </Card.Text>
+                                    <div>
+                                        <Card.Link href="#" className="btn">Card Link</Card.Link>
+                                        <Card.Link href="#" className="btn">Another Link</Card.Link>
+                                    </div>
+                                </div>
+                            </Card.Body>
 
-
+                        </Card>
+                    ))}
+            </Row>
 
         </>
     )
