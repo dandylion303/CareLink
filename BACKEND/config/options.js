@@ -141,5 +141,6 @@ export const source =[
     'google',
     'cartelloni',
     'volantino',
-    'passaparola'
+    'passaparola',
+    'altro'
 ]

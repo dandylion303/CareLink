@@ -16,12 +16,14 @@ const familySchema = new Schema({
     customerName: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        lowercase: true
     },
     customerLastname: {
         type: String,
         required: true,
-        trim: true
+        trim: true,
+        lowercase: true
     },
     phone: {
         type: String,
@@ -57,6 +59,7 @@ const familySchema = new Schema({
     source:{
         type: String, 
         enum: source,
+        required:true,
     },
     sede: {
         type: mongoose.SchemaTypes.ObjectId,

@@ -39,7 +39,7 @@ const jobSchema = new Schema({
     endDate: {
         type: Date,
         required: function () {
-            if (this.durationType === 'determinato'||this.status==='cessato') {
+            if (this.durationType === 'determinato'){
                 return true
             } else {
                 return false
@@ -48,9 +48,9 @@ const jobSchema = new Schema({
     },
     status: {
         type: String, 
-        enum: ['attivo', 'cessato'],
+        enum: ['proposta','attivo', 'cessato'],
         required: true,
-        default: 'attivo'
+        default: 'proposta'
     },
     inquadramento: {
         type: String,

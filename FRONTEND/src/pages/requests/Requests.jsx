@@ -4,6 +4,7 @@ import { Spinner, Table } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { StatusBadge } from "../../components/StatusBadge";
 import { Info } from 'lucide-react'
+import { PaginationBar } from "../../components/PaginationBar";
 
 const URL = import.meta.env.VITE_API_URL
 
@@ -12,6 +13,13 @@ export const Requests = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [errorMessage, setErrorMessage] = useState('')
     const user = JSON.parse(localStorage.getItem('user'))
+
+    const itemsPerPage = 5
+    const [page, setPage] = useState(1)
+    const numberOfPages = Math.ceil(requests.length / itemsPerPage)
+    const visibleItems = requests.slice((page - 1) * itemsPerPage, page * itemsPerPage)
+
+
 
     const getRequests = async () => {
         try {
@@ -88,7 +96,7 @@ export const Requests = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {requests.map((request) => (
+                        {visibleItems.map((request) => (
                             <tr key={request._id}>
                                 <td>
                                     <div className="d-flex align-items-center">
@@ -114,6 +122,10 @@ export const Requests = () => {
                     </tbody>
                 </Table >
             </div>
+            <PaginationBar
+                currentPage={page}
+                totalPages={numberOfPages}
+                onPageChange={setPage} />
         </>
     )
 }

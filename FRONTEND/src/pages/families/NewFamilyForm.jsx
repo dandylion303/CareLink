@@ -148,6 +148,23 @@ export const NewFamilyForm = () => {
                             />
                             {errors.customerAddress?.provincia && <p className="text-danger small mb-0">{errors.customerAddress?.provincia.message}</p>}
                         </Col>
+                        <Col md={6}>
+                            <label htmlFor="source" className="form-label">Come ci ha conosciuto</label>
+                            <select
+                                id="source"
+                                className="form-select"
+                                {...register('source', { required: 'Campo obbligatorio' })}>
+                                <option value="">Seleziona</option>
+                                <option value="social">Social network</option>
+                                <option value="google">Ricerca su Google</option>
+                                <option value="cartelloni">Cartelloni</option>
+                                <option value="volantino">Volantino</option>
+                                <option value="passaparola">Passaparola</option>
+                                <option value="altro">Altro</option>
+                            </select>
+                            {errors.source && <p className="text-danger small mb-0">{errors.source.message}</p>}
+
+                        </Col>
                     </Row>
                 </fieldset>
                 {/* --------------PRIVACY----------------- */}

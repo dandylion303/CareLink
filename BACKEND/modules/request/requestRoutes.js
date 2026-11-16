@@ -1,7 +1,7 @@
 import express from 'express'
 import { checkToken } from '../../middlewares/checkToken.js'
 import { checkRole } from '../../middlewares/checkRole.js'
-import { createRequest, deleteRequest, getAllRequests, getSingleRequest, updateRequest } from './requestController.js'
+import { closeRequest, createRequest, deleteRequest, getAllRequests, getSingleRequest, updateRequest } from './requestController.js'
 
 const requestRouter = express.Router()
 
@@ -10,5 +10,6 @@ requestRouter.get('/:id', checkToken, checkRole('admin', 'sede'), getSingleReque
 requestRouter.post('/', checkToken, checkRole('sede'), createRequest)
 requestRouter.patch('/:id', checkToken, checkRole('sede'), updateRequest)
 requestRouter.delete('/:id', checkToken, checkRole('admin', 'sede'), deleteRequest)
+requestRouter.patch('/:id/close', checkToken, checkRole('sede'), closeRequest)
 
 export default requestRouter

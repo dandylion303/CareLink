@@ -2,7 +2,7 @@ import { useState } from "react"
 import { useEffect } from "react"
 import { Spinner, Table, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
-
+import { PaginationBar } from "../../components/PaginationBar";
 
 const URL = import.meta.env.VITE_API_URL
 
@@ -11,6 +11,14 @@ export const Carers = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [errorMessage, setErrorMessage] = useState('')
     const user = JSON.parse(localStorage.getItem('user'))
+
+
+    const itemsPerPage = 5
+    const [page, setPage] = useState(1)
+    const numberOfPages = Math.ceil(carers.length / itemsPerPage)
+    const visibleItems = carers.slice((page - 1) * itemsPerPage, page * itemsPerPage)
+
+
     useEffect(() => {
         const getCarers = async () => {
             try {
@@ -67,7 +75,7 @@ export const Carers = () => {
         <>
             <div className="d-flex justify-content-between mb-3">
                 <h1 className=" h3 text-start text-cl-primary">Abbiamo {carers.length} Carer da proporre:</h1>
-                {user?.role==='sede'&&(<Link to='/carers/new' className="btn btn-primary">+ Carer</Link>)}
+                {user?.role === 'sede' && (<Link to='/carers/new' className="btn btn-primary">+ Carer</Link>)}
             </div>
             <div className="bg-cl-surface border border-cl rounded-3 overflow-hidden">
                 <Table hover responsive className='align-middle mb-0'>
@@ -81,11 +89,11 @@ export const Carers = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {carers.map((carer) => (
+                        {visibleItems.map((carer) => (
                             <tr key={carer._id}>
                                 <td>
                                     <div className="d-flex align-items-center">
-                                        <p className="round-initials me-3 mb-0 border rounded-circle bg-cl-positive">
+                                        <p className="round-initials flex-shrink-0 me-3 mb-0 border rounded-circle bg-cl-positive">
                                             {carer.nome[0]}{carer.lastName[0]}
                                         </p>
                                         <div>
@@ -110,7 +118,12 @@ export const Carers = () => {
 
                     </tbody>
                 </Table >
+                
             </div>
+            <PaginationBar 
+                    currentPage={page}
+                    totalPages={numberOfPages}
+                    onPageChange={setPage} />
         </>
     )
 }

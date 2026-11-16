@@ -17,12 +17,14 @@ const workerSchema = new Schema({
         type: String,
         required: true,
         trim: true,
+        lowercase: true
     },
 
     lastName: {
         type: String,
         required: true,
         trim: true,
+        lowercase: true
     },
     gender: {
         type: String,

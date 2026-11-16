@@ -1,8 +1,10 @@
 import { useParams, Link } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { Spinner, Row, Col, Button, Card } from 'react-bootstrap'
+import { Spinner, Row, Col, Button} from 'react-bootstrap'
 import { StatusBadge } from '../../components/StatusBadge'
 import { ArrowLeft, SquarePen } from "lucide-react"
+import { MatchResults } from "../../components/RequestDetail/MatchResults"
+import { ProposalList } from "../../components/RequestDetail/ProposalList"
 
 const URL = import.meta.env.VITE_API_URL
 
@@ -15,6 +17,8 @@ export const RequestDetailPage = () => {
     const [errorMessage, setErrorMessage] = useState('')
     const [newStatus, setNewStatus] = useState('')
     const [matches, setMatches] = useState([])
+    const [actionError, setActionError] = useState('')
+    const [proposal, setProposal] = useState([])
 
     const getRequest = async () => {
         try {
@@ -82,11 +86,106 @@ export const RequestDetailPage = () => {
         }
     }
 
+    const proposeCarer = async (workerId) => {
+        setActionError('')
+        try {
+            const token = localStorage.getItem('token')
+            const response = await fetch(`${URL}/jobs`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({ worker: workerId, request: id })
+            })
+            const result = await response.json()
+            if (!response.ok) {
+                setActionError(result.message)
+            } else {
+                getRequest()
+                getMatches()
+                getProposals()
+            }
+        } catch (error) {
+            setActionError("Server non raggiungibile")
+            console.log(error)
+        }
+    }
+
+    const getProposals = async () => {
+        try {
+            const token = localStorage.getItem('token')
+            const response = await fetch(`${URL}/jobs?request=${id}`, {
+                headers: { 'Authorization': `Bearer ${token}` },
+            })
+            const result = await response.json()
+            if (response.ok) {
+                setProposal(result)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+    const confirmProposal = async (jobId) => {
+        setActionError('')
+        try {
+            const token = localStorage.getItem('token')
+            const response = await fetch(`${URL}/requests/${id}/close`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({ chosenJob: jobId })
+            })
+            const result = await response.json()
+            if (!response.ok) {
+                setActionError(result.message)
+            } else {
+                getRequest()
+                getMatches()
+                getProposals()
+            }
+        } catch (error) {
+            setActionError("Server non raggiungibile")
+            console.log(error)
+        }
+    }
+
+    const rejectProposal = async(proposalId)=>{
+        setActionError('')
+        try {
+            const token = localStorage.getItem('token')
+            const response = await fetch(`${URL}/jobs/${proposalId}/reject`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-type': 'application/json'
+                },
+                
+            })
+            const result = await response.json()
+            if (!response.ok) {
+                setActionError(result.message)
+            } else {
+                getRequest()
+                getMatches()
+                getProposals()
+            }
+
+        } catch (error) {
+            setActionError('Server non raggiungibile')
+            console.log(error)
+        }
+    }
 
 
     useEffect(() => {
         getRequest()
         getMatches()
+        getProposals()
     }, [id])
 
     if (isLoading) {
@@ -154,7 +253,7 @@ export const RequestDetailPage = () => {
                             <p className="mb-3"><span className="text-cl-secondary">Testo pubblico:</span> {request.publicDescription}</p>
                         )}
 
-                        {request.statusRichiesta !== 'chiusa' && (
+                        {request.statusRichiesta !== 'Chiusa' && (
                             <div className="d-flex gap-2 mt-3">
                                 <select
                                     aria-label="Nuovo stato"
@@ -280,45 +379,20 @@ export const RequestDetailPage = () => {
                     </div>
                 </Col>
             </Row>
-            <Row>
-                <h2>Carer da proporre:</h2>
-                {matches.length===0
-                    ? <p className="small text-muted text-capitalize">Non ci sono Carers per questa richiesta</p>
-                    : matches.map((match) => (
-                        <Card key={match.worker._id} className="mx-1 mb-4 bg-cl-surface border border-cl rounded-3">
-                            <Card.Body>
-                                <Col className="d-flex justify-content-between align-items-center">
-                                    <div className="d-flex align-items-center gap-3">
-                                        <div>
-                                            <p className="round-initials me-3 mb-0 border rounded-circle bg-cl-positive">
-                                                {match.worker.nome[0]}{match.worker.lastName[0]}
-                                            </p>
-                                        </div>
-                                        <div>
-                                            <Card.Title className="text-capitalize fw-bold fs-4">{match.worker.nome} {match.worker.lastName}</Card.Title>
-                                            <Card.Subtitle className="mb-2 text-muted text-uppercase">{match.worker.city} {match.worker.phone}</Card.Subtitle>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <p className="h1 text-cl-match">{match.percentage}%</p>
-                                    </div>
-                                </Col>
-                                <div className="d-flex justify-content-between">
-                                    <Card.Text>
-                                        {match.reasons.map((reason) => (
-                                            <span key={reason} className="badge rounded-pill bg-cl-positive mx-1">{reason}</span>
-                                        ))}
-                                    </Card.Text>
-                                    <div>
-                                        <Card.Link href="#" className="btn">Card Link</Card.Link>
-                                        <Card.Link href="#" className="btn">Another Link</Card.Link>
-                                    </div>
-                                </div>
-                            </Card.Body>
-
-                        </Card>
-                    ))}
-            </Row>
+            {/* ==============EVENTUALI CARER PROPOSTE=========== */}
+            <ProposalList
+                proposals={proposal}
+                requestStatus={request.statusRichiesta}
+                onConfirm={confirmProposal}
+                onReject={rejectProposal}
+            />
+            {/* ============== CARER DA PROPORRE =========== */}
+            <MatchResults
+                matches={matches}
+                actionError={actionError}
+                requestStatus={request.statusRichiesta}
+                onPropose={proposeCarer}
+            />
 
         </>
     )

@@ -2,6 +2,8 @@ import Request from './Request.js'
 import Family from '../family/Family.js'
 import { profileFilter } from '../../utils/sedeFilter.js'
 import { calculateInquadramento } from './requestService.js'
+import Job from '../job/Job.js'
+import Worker from '../worker/Worker.js'
 
 
 export const getAllRequests = async (req, res, next) => {
@@ -31,7 +33,7 @@ export const createRequest = async (req, res, next) => {
 export const getSingleRequest = async (req, res, next) => {
     try {
         const id = req.params.id
-        const singleRequest = await Request.findOne({ _id: id, ...profileFilter(req.user) }).populate('famiglia', 'customerName customerLastname phone email')        
+        const singleRequest = await Request.findOne({ _id: id, ...profileFilter(req.user) }).populate('famiglia', 'customerName customerLastname phone email')
         if (!singleRequest) {
             res.status(404).json({ message: 'Richiesta non trovata' })
         } else {
@@ -71,6 +73,39 @@ export const deleteRequest = async (req, res, next) => {
             res.status(204).send()
         }
     } catch (error) {
+        next(error)
+    }
+}
+
+export const closeRequest = async (req, res, next) => {
+    try {
+        const foundRequest = await Request.findOne({ _id: req.params.id, ...profileFilter(req.user) })
+        if (!foundRequest) {
+            return res.status(404).json({ message: 'Richiesta non trovata' })
+        }
+        if (foundRequest.statusRichiesta === 'Chiusa') {
+            return res.status(400).json({ message: 'La richiesta risulta già conclusa' })
+        }
+        foundRequest.statusRichiesta = 'Chiusa'
+        await foundRequest.save()
+        const proposals = await Job.find({ request: foundRequest._id, status: 'proposta' })
+
+        for (const proposal of proposals) {
+            const worker = await Worker.findById(proposal.worker)
+            if (proposal._id.toString() === req.body.chosenJob) {
+                proposal.status = 'attivo'
+            } else {
+                proposal.status = 'cessato'
+                if (worker) {
+                    worker.status = 'disponibile'
+                    await worker.save()
+                }
+            } await proposal.save()
+        }
+        res.status(200).json(foundRequest)
+    }
+
+    catch (error) {
         next(error)
     }
 }

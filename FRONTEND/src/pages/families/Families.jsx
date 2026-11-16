@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useEffect } from "react"
 import { Spinner, Table, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
+import { PaginationBar } from "../../components/PaginationBar";
 
 
 const URL = import.meta.env.VITE_API_URL
@@ -11,6 +12,13 @@ export const Families = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [errorMessage, setErrorMessage] = useState('')
     const user = JSON.parse(localStorage.getItem('user'))
+
+    const itemsPerPage = 5
+    const [page, setPage] = useState(1)
+    const numberOfPages = Math.ceil(families.length / itemsPerPage)
+    const visibleItems = families.slice((page - 1) * itemsPerPage, page * itemsPerPage)
+
+
     useEffect(() => {
         const getFamilies = async () => {
             try {
@@ -82,11 +90,11 @@ export const Families = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {families.map((family) => (
+                        {visibleItems.map((family) => (
                             <tr key={family._id}>
                                 <td>
                                     <div className="d-flex align-items-center">
-                                        <p className="round-initials me-3 mb-0 border rounded-circle bg-cl-positive">
+                                        <p className="round-initials flex-shrink-0 me-3 mb-0 border rounded-circle bg-cl-positive">
                                             {family.customerName[0]}{family.customerLastname[0]}
                                         </p>
                                         <div>
@@ -105,6 +113,11 @@ export const Families = () => {
                     </tbody>
                 </Table >
             </div>
+
+            <PaginationBar 
+                    currentPage={page}
+                    totalPages={numberOfPages}
+                    onPageChange={setPage} />
         </>
     )
 }
