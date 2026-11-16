@@ -1,10 +1,13 @@
 import { useParams, Link } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { Spinner, Row, Col, Button} from 'react-bootstrap'
+import { Spinner, Row, Col, Button } from 'react-bootstrap'
 import { StatusBadge } from '../../components/StatusBadge'
-import { ArrowLeft, SquarePen } from "lucide-react"
+import { ArrowLeft, SquarePen, FileText } from "lucide-react"
 import { MatchResults } from "../../components/RequestDetail/MatchResults"
 import { ProposalList } from "../../components/RequestDetail/ProposalList"
+import { BlobProvider } from '@react-pdf/renderer'
+import { RequestPdf } from '../../components/RequestDetail/RequestPdf'
+
 
 const URL = import.meta.env.VITE_API_URL
 
@@ -154,7 +157,7 @@ export const RequestDetailPage = () => {
         }
     }
 
-    const rejectProposal = async(proposalId)=>{
+    const rejectProposal = async (proposalId) => {
         setActionError('')
         try {
             const token = localStorage.getItem('token')
@@ -164,7 +167,7 @@ export const RequestDetailPage = () => {
                     'Authorization': `Bearer ${token}`,
                     'Content-type': 'application/json'
                 },
-                
+
             })
             const result = await response.json()
             if (!response.ok) {
@@ -224,7 +227,20 @@ export const RequestDetailPage = () => {
                     </h1>
                     <StatusBadge status={request.statusRichiesta} />
                 </div>
-                <div>
+                <div className="d-flex gap-2">
+                    <BlobProvider document={<RequestPdf request={request} />}>
+                        {({ url, loading }) => (
+                            loading
+                                ? <span className="btn btn-primary disabled">Preparazione...</span>
+                                : <a
+                                    href={url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn btn-primary d-inline-flex align-items-center gap-2">
+                                    Apri incarico <FileText size={16} aria-hidden="true" />
+                                </a>
+                        )}
+                    </BlobProvider>
                     <Link to={`/request/${id}/edit`} className="btn btn-outline-secondary">
                         Modifica <SquarePen size={16} />
                     </Link>

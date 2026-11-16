@@ -33,7 +33,10 @@ export const createRequest = async (req, res, next) => {
 export const getSingleRequest = async (req, res, next) => {
     try {
         const id = req.params.id
-        const singleRequest = await Request.findOne({ _id: id, ...profileFilter(req.user) }).populate('famiglia', 'customerName customerLastname phone email')
+        const singleRequest = await Request
+            .findOne({ _id: id, ...profileFilter(req.user) })
+            .populate('famiglia')
+            .populate('sede')
         if (!singleRequest) {
             res.status(404).json({ message: 'Richiesta non trovata' })
         } else {
