@@ -12,11 +12,28 @@ export const Carers = () => {
     const [errorMessage, setErrorMessage] = useState('')
     const user = JSON.parse(localStorage.getItem('user'))
 
+    /* ========== FILTRO DI RICERCA ========= */
+    const [searchName, setSearchName] = useState('')
+    const [searchType, setSearchType] = useState('')
+    const [searchRegime, setSearchRegime] = useState('')
+    const [searchStatus, setSearchStatus] = useState('')
+
+    const filteredRequests = carers.filter((carer) => {
+        const fullCarerName = `${carer.nome || ''} ${carer?.lastName || ''}`.toLowerCase()
+        const matchesName = fullCarerName.includes(searchName.toLowerCase())
+        const matchesJobType = searchType === '' || carer.jobTypes.includes(searchType)
+        const matchesRegime = searchRegime === '' || carer.regimes.includes(searchRegime)
+        const matchesStatus = searchStatus === '' || carer.status === searchStatus
+
+        return matchesName && matchesRegime && matchesStatus && matchesJobType;
+    });
+
+
 
     const itemsPerPage = 5
     const [page, setPage] = useState(1)
-    const numberOfPages = Math.ceil(carers.length / itemsPerPage)
-    const visibleItems = carers.slice((page - 1) * itemsPerPage, page * itemsPerPage)
+    const numberOfPages = Math.ceil(filteredRequests.length / itemsPerPage)
+    const visibleItems = filteredRequests.slice((page - 1) * itemsPerPage, page * itemsPerPage)
 
 
     useEffect(() => {
@@ -77,6 +94,46 @@ export const Carers = () => {
                 <h1 className=" h3 text-start text-cl-primary">Abbiamo {carers.length} Carer da proporre:</h1>
                 {user?.role === 'sede' && (<Link to='/carers/new' className="btn btn-primary">+ Carer</Link>)}
             </div>
+            <div className="d-flex gap-2 mb-3">
+                <input
+                    aria-label="cerca per nome"
+                    className="form-control"
+                    placeholder="Cerca Carer"
+                    type="text"
+                    value={searchName}
+                    onChange={(event) => { setSearchName(event.target.value); setPage(1) }} />
+
+                <select
+                    aria-label="Filtro"
+                    className="form-select"
+                    value={searchType}
+                    onChange={(event) => { setSearchType(event.target.value); setPage(1) }}>
+                    <option value="">Tipo Lavoro</option>
+                    <option value="badante">Badante</option>
+                    <option value="colf">Colf</option>
+                    <option value="babysitter">BabySitter</option>
+                </select>
+                <select
+                    aria-label="Filtro"
+                    className="form-select"
+                    value={searchRegime}
+                    onChange={(event) => { setSearchRegime(event.target.value); setPage(1) }}>
+                    <option value="">Tipo Regime</option>
+                    <option value="convivente">Convivente</option>
+                    <option value="nonConvivente">Non Convivente</option>
+                    <option value="conviventePartTime">Convivente Part Time</option>
+                    <option value="notturno">Notturno</option>
+                </select>
+                <select
+                    aria-label="Filtro"
+                    className="form-select"
+                    value={searchStatus}
+                    onChange={(event) => { setSearchStatus(event.target.value); setPage(1) }}>
+                    <option value="">Status</option>
+                    <option value="disponibile">Disponibile</option>
+                    <option value="non disponibile">Non disponibile</option>
+                </select>
+            </div>
             <div className="bg-cl-surface border border-cl rounded-3 overflow-hidden">
                 <Table hover responsive className='align-middle mb-0'>
                     <thead>
@@ -118,12 +175,12 @@ export const Carers = () => {
 
                     </tbody>
                 </Table >
-                
+
             </div>
-            <PaginationBar 
-                    currentPage={page}
-                    totalPages={numberOfPages}
-                    onPageChange={setPage} />
+            <PaginationBar
+                currentPage={page}
+                totalPages={numberOfPages}
+                onPageChange={setPage} />
         </>
     )
 }

@@ -14,10 +14,23 @@ export const Requests = () => {
     const [errorMessage, setErrorMessage] = useState('')
     const user = JSON.parse(localStorage.getItem('user'))
 
+    const [searchName, setSearchName] = useState('')
+    const [searchStatus, setSearchStatus] = useState('')
+    
+    const filteredRequests = requests.filter((request) => {
+    const fullFamilyName = `${request.famiglia?.customerName || ''} ${request.famiglia?.customerLastname || ''}`.toLowerCase()
+    const matchesName = fullFamilyName.includes(searchName.toLowerCase())
+
+    const matchesStatus = searchStatus === '' || request.statusRichiesta === searchStatus
+
+    return matchesName && matchesStatus;
+});
+    
+
     const itemsPerPage = 5
     const [page, setPage] = useState(1)
-    const numberOfPages = Math.ceil(requests.length / itemsPerPage)
-    const visibleItems = requests.slice((page - 1) * itemsPerPage, page * itemsPerPage)
+    const numberOfPages = Math.ceil(filteredRequests.length / itemsPerPage)
+    const visibleItems = filteredRequests.slice((page - 1) * itemsPerPage, page * itemsPerPage)
 
 
 
@@ -82,7 +95,29 @@ export const Requests = () => {
                 <h1 className=" h3 text-start text-cl-primary">Abbiamo {requests.length} ricerche in corso:</h1>
                 {user?.role === 'sede' && (<Link to='/request/new' className="btn btn-primary">+ Intermediazione</Link>)}
             </div>
+            <div className="d-flex gap-2 mb-3">
+                <input 
+                    aria-label="cerca per nome"
+                    className="form-control"
+                    placeholder="Cerca famiglia"
+                    type="text" 
+                    value={searchName}
+                    onChange={(event)=>{setSearchName(event.target.value); setPage(1)}} />
+
+                <select
+                    aria-label="Filtro"
+                    className="form-select"
+                    value={searchStatus}
+                    onChange={(event) => { setSearchStatus(event.target.value) ;setPage(1)}}>
+                    <option value="">Filtro Status</option>
+                    <option value="Attiva">Attiva</option>
+                    <option value="Chiusa">Chiusa</option>
+                    <option value="inProva">In Prova</option>
+                    <option value="inAttesa">In Attesa</option>
+                </select>
+            </div>
             <div className="bg-cl-surface border border-cl rounded-3 overflow-hidden">
+                
                 <Table hover responsive className='align-middle mb-0'>
                     <thead>
                         <tr>

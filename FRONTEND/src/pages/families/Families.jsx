@@ -13,10 +13,25 @@ export const Families = () => {
     const [errorMessage, setErrorMessage] = useState('')
     const user = JSON.parse(localStorage.getItem('user'))
 
+    /* ========== FILTRO DI RICERCA ========= */
+    const [searchName, setSearchName] = useState('')
+    const [searchMail, setSearchMail] = useState('')
+    const [searchOrigin, setSearchOrigin] = useState('')
+
+    const filteredRequests = families.filter((family) => {
+        const fullFamilyName = `${family.customerName || ''} ${family?.customerLastname || ''}`.toLowerCase()
+        const matchesName = fullFamilyName.includes(searchName.toLowerCase())
+        const matchesMail = searchMail === '' | family.email.includes(searchMail.toLowerCase())
+        const matchesOrigin = searchOrigin === '' || family.source === searchOrigin
+
+        return matchesName && matchesMail && matchesOrigin;
+    });
+
+    /* =========== PAGINATION =============== */
     const itemsPerPage = 5
     const [page, setPage] = useState(1)
-    const numberOfPages = Math.ceil(families.length / itemsPerPage)
-    const visibleItems = families.slice((page - 1) * itemsPerPage, page * itemsPerPage)
+    const numberOfPages = Math.ceil(filteredRequests.length / itemsPerPage)
+    const visibleItems = filteredRequests.slice((page - 1) * itemsPerPage, page * itemsPerPage)
 
 
     useEffect(() => {
@@ -78,6 +93,36 @@ export const Families = () => {
                 <h1 className=" h3 text-start text-cl-primary">Abbiamo {families.length} famiglie da aiutare:</h1>
                 {user?.role === 'sede' && (<Link to='/family/new' className="btn btn-primary">+ Famiglia</Link>)}
             </div>
+            <div className="d-flex gap-2 mb-3">
+                <input
+                    aria-label="cerca per nome"
+                    className="form-control"
+                    placeholder="Cerca famiglia"
+                    type="text"
+                    value={searchName}
+                    onChange={(event) => { setSearchName(event.target.value); setPage(1) }} />
+                <input
+                    aria-label="cerca per nome"
+                    className="form-control"
+                    placeholder="Cerca email"
+                    type="text"
+                    value={searchMail}
+                    onChange={(event) => { setSearchMail(event.target.value); setPage(1) }} />
+
+                <select
+                    aria-label="Filtro"
+                    className="form-select"
+                    value={searchOrigin}
+                    onChange={(event) => { setSearchOrigin(event.target.value); setPage(1) }}>
+                    <option value="">Cerca Origine</option>
+                    <option value="social">Social</option>
+                    <option value="google">Google</option>
+                    <option value="cartelloni">Cartelloni</option>
+                    <option value="volantino">Volantino</option>
+                    <option value="passaparola">Passaparola</option>
+                    <option value="altro">Altro</option>
+                </select>
+            </div>
             <div className="bg-cl-surface border border-cl rounded-3 overflow-hidden">
                 <Table hover responsive className='align-middle mb-0'>
                     <thead>
@@ -114,10 +159,10 @@ export const Families = () => {
                 </Table >
             </div>
 
-            <PaginationBar 
-                    currentPage={page}
-                    totalPages={numberOfPages}
-                    onPageChange={setPage} />
+            <PaginationBar
+                currentPage={page}
+                totalPages={numberOfPages}
+                onPageChange={setPage} />
         </>
     )
 }
