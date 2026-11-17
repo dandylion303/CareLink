@@ -10,6 +10,7 @@ import requestRouter from './modules/request/requestRoutes.js'
 import jobRouter from './modules/job/jobRoutes.js'
 import userRouter from './modules/user/userRoutes.js'
 import matchRouter from './modules/matching/matchingRoutes.js'
+import publicRouter from './modules/public/publicRoutes.js'
 import { errorHandler } from './middlewares/errorHandler.js'
 
 
@@ -36,6 +37,7 @@ server.use('/requests',requestRouter)
 server.use('/jobs', jobRouter)
 server.use('/users', userRouter)
 server.use('/matching', matchRouter)
+server.use('/public', publicRouter)
 server.use(errorHandler)
 
 startServer()

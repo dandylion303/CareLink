@@ -10,6 +10,7 @@ import Dashboard from "./pages/Dashboard";
 import { Layout } from "./components/Layout";
 import { Route, Routes } from 'react-router-dom';
 import { RequestDetailPage } from "./pages/requests/RequestDetailPage";
+import { PublicBoard } from "./pages/public/PublicBoard";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
@@ -20,6 +21,11 @@ const App = () => {
           path='/login'
           element={<Login />}
         />
+        <Route
+          path='/bacheca'
+          element={<PublicBoard />}
+        />
+
 
         <Route
           path='/'

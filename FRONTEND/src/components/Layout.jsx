@@ -53,6 +53,7 @@ export const Layout = () => {
                             <NavLink to='/family' className='nav-link'>Famiglie</NavLink>
                             <NavLink to='/request' className='nav-link'>Richieste</NavLink>
                             <NavLink to='/simulatore' className='nav-link'>Simulatore</NavLink>
+                            <NavLink to='/bacheca' className='nav-link'>Bacheca</NavLink>
 
                         </nav>
                     </Col>
