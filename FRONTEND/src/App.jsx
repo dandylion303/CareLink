@@ -51,18 +51,18 @@ const App = () => {
             element={<NewFamilyForm />} />
           <Route
             path='request/new'
-            element={<NewRequestForm/>}/>
+            element={<NewRequestForm />} />
           <Route
             path='request'
-            element={<Requests/>}/>
+            element={<Requests />} />
           <Route
             path='request/:id'
-            element={<RequestDetailPage/>}/>
+            element={<RequestDetailPage />} />
           <Route
             path='request/:id/edit'
-            element={<RequestEdit/>}/>
-          
-            
+            element={<RequestEdit />} />
+
+
         </Route>
       </Routes>
     </>

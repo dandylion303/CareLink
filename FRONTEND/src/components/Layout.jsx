@@ -21,7 +21,7 @@ export const Layout = () => {
         <>
             {/*/////////----HEADER----/////////////////*/}
 
-            <header className="mainHeader d-flex justify-content-between align-items-center px-4 py-3">
+            <header className="mainHeader d-flex justify-content-between align-items-center px-4 py-3 my-0">
                 <span className="h1">
                     <Link to='/' className="logo">
                         Care<em className="text-cl-primary">Link</em>
@@ -44,7 +44,7 @@ export const Layout = () => {
                 </div>
             </header>
             {/*/////////----CONTENUTO----///////////////*/}
-            <Container fluid>
+            <Container fluid className="p-4">
                 <Row>
                     <Col md={3} lg={2}>
                         <nav className="nav flex-column">

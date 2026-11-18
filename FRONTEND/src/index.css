@@ -197,3 +197,18 @@ a{
 .badgeGreen{
   background-color: #c0d89d;
 }
+
+/*-----------BACHECA------------*/
+.dashboard-count{
+  font-family: "New Amsterdam","impact", sans-serif;
+  font-size: 30px;
+}
+
+.dashboard-item:hover{
+  background-color: #ecece8!important;
+}
+
+/*-----------LOGIN PAGE------------*/
+.login-form{
+  max-width:450px;
+}
