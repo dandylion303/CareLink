@@ -1,7 +1,7 @@
 import express from "express"
 import { checkToken } from "../../middlewares/checkToken.js"
 import { checkRole } from "../../middlewares/checkRole.js"
-import { createWorker, deleteWorker, getAllWorkers, getWorkerById, updateWorker, addDocument } from "./workerController.js"
+import { createWorker, deleteWorker, getAllWorkers, getWorkerById, updateWorker, addDocument, flagWorker } from "./workerController.js"
 import upload from "../../config/cloudinary.js"
 
 const workerRouter = express.Router()
@@ -11,7 +11,7 @@ workerRouter.get('/:id', checkToken, checkRole('admin', 'sede'), getWorkerById)
 workerRouter.post('/', checkToken, checkRole('sede'), createWorker)
 workerRouter.patch('/:id', checkToken, checkRole('sede'), updateWorker)
 workerRouter.delete('/:id', checkToken, checkRole('admin','sede'), deleteWorker)
-
+workerRouter.patch('/:id/flag', checkToken, checkRole('sede'), flagWorker)
 workerRouter.post('/:id/documents', checkToken, checkRole('sede'), upload.single('file'), addDocument)
 
 export default workerRouter

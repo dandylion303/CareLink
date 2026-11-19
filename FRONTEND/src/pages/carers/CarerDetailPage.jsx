@@ -17,6 +17,8 @@ export const CarerDetailPage = () => {
     const [carer, setCarer] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [errorMessage, setErrorMessage] = useState('')
+    const [flagReason, setFlagReason] = useState('')
+    const [actionError, setActionError] = useState('')
 
     const getCarer = async () => {
         try {
@@ -45,6 +47,31 @@ export const CarerDetailPage = () => {
         }
     }
 
+    const updateFlag = async (isFlagged) => {
+        setActionError('')
+        try {
+            const token = localStorage.getItem('token')
+            const response = await fetch(`${URL}/carers/${id}/flag`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({ isFlagged, reason: flagReason })
+            })
+            const result = await response.json()
+            if (!response.ok) {
+                setActionError(result.message)
+            } else {
+                setCarer(result)
+                setFlagReason('')
+            }
+        } catch (error) {
+            setActionError('Server non raggiungibile')
+            console.log(error)
+        }
+    }
+
     useEffect(() => {
         getCarer()
     }, [id])
@@ -69,7 +96,7 @@ export const CarerDetailPage = () => {
 
 
 
-        const listOrDash = (list) => (list?.length > 0 ? list.join(', ') : '—')
+    const listOrDash = (list) => (list?.length > 0 ? list.join(', ') : '—')
 
     return (
         <>
@@ -138,9 +165,48 @@ export const CarerDetailPage = () => {
                         <p className="mb-0"><span className="text-cl-secondary">Note:</span> {carer.notes || '—'}</p>
                     </div>
                 </Col>
+                {/* ---------- SEGNALAZIONE ---------- */}
+                <section className="border-top border-cl pt-4">
+                    <h2 className="h5 mb-3">Segnalazione</h2>
+
+                    {carer.warning?.isFlagged ? (
+                        <div className="bg-cl-negative rounded-3 p-3">
+                            <p className="fw-semibold mb-1">Questa Carer è segnalata e non compare nel matching.</p>
+                            <p className="mb-1">Motivo: {carer.warning.reason}</p>
+                            {carer.warning.flaggedAt && (
+                                <p className="small mb-3">Segnalata il {new Date(carer.warning.flaggedAt).toLocaleDateString('it-IT')}</p>
+                            )}
+                            <Button variant="outline-secondary" onClick={() => updateFlag(false)}>
+                                Rimuovi la segnalazione
+                            </Button>
+                        </div>
+                    ) : (
+                        <div style={{ maxWidth: 560 }}>
+                            <label htmlFor="flagReason" className="form-label">
+                                Se ci sono stati problemi con questa Carer, scrivi il motivo:
+                            </label>
+                            <textarea
+                                id="flagReason"
+                                rows="3"
+                                className="form-control mb-3"
+                                value={flagReason}
+                                onChange={(event) => setFlagReason(event.target.value)}
+                            />
+                            <Button
+                                variant="outline-danger"
+                                disabled={flagReason.trim() === ''}
+                                onClick={() => updateFlag(true)}>
+                                Segnala
+                            </Button>
+                        </div>
+                    )}
+
+                    {actionError && <p className="text-danger mt-3 mb-0">{actionError}</p>}
+                </section>
+
+
             </Row>
 
-            {/* ---------- SEGNALAZIONE: nel prossimo passo ---------- */}
         </>
     )
 }

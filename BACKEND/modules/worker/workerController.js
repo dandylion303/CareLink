@@ -67,15 +67,15 @@ export const deleteWorker = async (req, res, next) => {
     }
 }
 
-export const addDocument = async (req, res, next)=>{
+export const addDocument = async (req, res, next) => {
     try {
         const id = req.params.id
         const singleWorker = await Worker.findOne({ _id: id, ...profileFilter(req.user) })
         if (!singleWorker) {
             res.status(404).json({ message: 'Carer non trovato' })
         } else {
-            if(!req.file){
-                return res.status(400).json({message: 'nessun file caricato'})
+            if (!req.file) {
+                return res.status(400).json({ message: 'nessun file caricato' })
             }
             singleWorker.documents.push({
                 docType: req.body.docType,
@@ -87,7 +87,35 @@ export const addDocument = async (req, res, next)=>{
             await singleWorker.save()
             res.status(200).json(singleWorker)
         }
-        
+
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const flagWorker = async (req, res, next) => {
+    try {
+        const worker = await Worker.findOne({ _id: req.params.id, ...profileFilter(req.user) })
+        if (!worker) {
+            return res.status(404).json({ message: 'Carer non trovata' })
+        }
+
+        if (req.body.isFlagged === true) {
+            if (!req.body.reason || req.body.reason.trim() === '') {
+                return res.status(400).json({ message: 'Scrivi il motivo della segnalazione' })
+            }
+            worker.warning = {
+                isFlagged: true,
+                reason: req.body.reason.trim(),
+                flaggedBy: req.user.id,
+                flaggedAt: new Date(),
+            }
+        } else {
+            worker.warning = { isFlagged: false }
+        }
+
+        await worker.save()
+        res.status(200).json(worker)
     } catch (error) {
         next(error)
     }

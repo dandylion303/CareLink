@@ -7,6 +7,7 @@ import { PaginationBar } from "../../components/PaginationBar";
 
 const URL = import.meta.env.VITE_API_URL
 
+
 export const Carers = () => {
     const [carers, setCarers] = useState([])
     const [isLoading, setIsLoading] = useState(true)
@@ -59,6 +60,7 @@ export const Carers = () => {
                 }
             } catch (error) {
                 setErrorMessage("Server non raggiungibile")
+                console.log(error)
 
             } finally {
                 setIsLoading(false)
@@ -169,13 +171,18 @@ export const Carers = () => {
                                 <td>{(carer.jobTypes).join(', ')}</td>
                                 <td>{(carer.regimes).join(', ')}</td>
                                 <td>{carer.phone}</td>
-                                <td>{carer.status === 'disponibile'
-                                    ? <span className="badge rounded-pill badge-positive px-3 py-2">
-                                        Disponibile
-                                    </span>
-                                    : <span className="badge rounded-pill badge-negative px-3 py-2">
-                                        Non Disponibile
-                                    </span>}
+                                <td>
+                                    {carer.warning?.isFlagged
+                                        ? (<span className="badge rounded-pill bg-danger px-3 py-2" title={carer.warning.reason}>
+                                            Segnalata
+                                        </span>)
+                                        : carer.status === 'disponibile'
+                                            ? (<span className="badge rounded-pill badge-positive px-3 py-2">
+                                                Disponibile
+                                            </span>)
+                                            : (<span className="badge rounded-pill badge-negative px-3 py-2">
+                                                Non disponibile
+                                            </span>)}
                                 </td>
                                 <td><Link to={`/carers/${carer._id}`} className="btn btn-sm btn-primary-light">
                                     <Info size={16} /></Link>

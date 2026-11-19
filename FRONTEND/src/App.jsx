@@ -12,6 +12,8 @@ import { Route, Routes } from 'react-router-dom';
 import { RequestDetailPage } from "./pages/requests/RequestDetailPage";
 import { PublicBoard } from "./pages/public/PublicBoard";
 import { CarerDetailPage } from "./pages/carers/CarerDetailPage";
+import { Simulatore } from "./pages/simulatore/Simulatore";
+import { ErrorPage } from "./pages/ErrorPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
@@ -65,8 +67,12 @@ const App = () => {
           <Route
             path='request/:id/edit'
             element={<RequestEdit />} />
-
-
+          <Route
+            path='simulatore'
+            element={<Simulatore />} />
+          <Route
+            path='*'
+            element={<ErrorPage />} />
         </Route>
       </Routes>
     </>
