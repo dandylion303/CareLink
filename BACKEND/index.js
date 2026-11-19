@@ -11,6 +11,7 @@ import jobRouter from './modules/job/jobRoutes.js'
 import userRouter from './modules/user/userRoutes.js'
 import matchRouter from './modules/matching/matchingRoutes.js'
 import publicRouter from './modules/public/publicRoutes.js'
+import applicationRouter from './modules/candidature/applicationRoutes.js'
 import { errorHandler } from './middlewares/errorHandler.js'
 
 
@@ -38,6 +39,7 @@ server.use('/jobs', jobRouter)
 server.use('/users', userRouter)
 server.use('/matching', matchRouter)
 server.use('/public', publicRouter)
+server.use('/applications', applicationRouter)
 server.use(errorHandler)
 
 startServer()

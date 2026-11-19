@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useEffect } from "react"
 import { Spinner, Table, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
+import { Info } from 'lucide-react'
 import { PaginationBar } from "../../components/PaginationBar";
 
 const URL = import.meta.env.VITE_API_URL
@@ -90,9 +91,14 @@ export const Carers = () => {
 
     return (
         <>
-            <div className="d-flex justify-content-between mb-3">
-                <h1 className=" h3 text-start text-cl-primary">Abbiamo {carers.length} Carer da proporre:</h1>
-                {user?.role === 'sede' && (<Link to='/carers/new' className="btn btn-primary">+ Carer</Link>)}
+            <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+                <div className="d-flex align-items-baseline gap-3">
+                    <h1 className="mb-0">Carer</h1>
+                    <span className="text-cl-secondary">{carers.length} in archivio</span>
+                </div>
+                {user?.role === 'sede' && (
+                    <Link to="/carers/new" className="btn btn-primary">+ Nuova Carer</Link>
+                )}
             </div>
             <div className="d-flex gap-2 mb-3">
                 <input
@@ -143,6 +149,7 @@ export const Carers = () => {
                             <th>Regime</th>
                             <th>Telefono</th>
                             <th>Stato</th>
+                            <th>info</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -169,6 +176,9 @@ export const Carers = () => {
                                     : <span className="badge rounded-pill badge-negative px-3 py-2">
                                         Non Disponibile
                                     </span>}
+                                </td>
+                                <td><Link to={`/carers/${carer._id}`} className="btn btn-sm btn-primary-light">
+                                    <Info size={16} /></Link>
                                 </td>
                             </tr>
                         ))}

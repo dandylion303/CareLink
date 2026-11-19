@@ -11,6 +11,7 @@ import { Layout } from "./components/Layout";
 import { Route, Routes } from 'react-router-dom';
 import { RequestDetailPage } from "./pages/requests/RequestDetailPage";
 import { PublicBoard } from "./pages/public/PublicBoard";
+import { CarerDetailPage } from "./pages/carers/CarerDetailPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
@@ -43,6 +44,9 @@ const App = () => {
           <Route
             path='carers/new'
             element={<NewCarerForm />} />
+          <Route
+            path='carers/:id'
+            element={<CarerDetailPage />} />
           <Route
             path='family'
             element={<Families />} />

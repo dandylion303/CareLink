@@ -16,16 +16,16 @@ export const Requests = () => {
 
     const [searchName, setSearchName] = useState('')
     const [searchStatus, setSearchStatus] = useState('')
-    
+
     const filteredRequests = requests.filter((request) => {
-    const fullFamilyName = `${request.famiglia?.customerName || ''} ${request.famiglia?.customerLastname || ''}`.toLowerCase()
-    const matchesName = fullFamilyName.includes(searchName.toLowerCase())
+        const fullFamilyName = `${request.famiglia?.customerName || ''} ${request.famiglia?.customerLastname || ''}`.toLowerCase()
+        const matchesName = fullFamilyName.includes(searchName.toLowerCase())
 
-    const matchesStatus = searchStatus === '' || request.statusRichiesta === searchStatus
+        const matchesStatus = searchStatus === '' || request.statusRichiesta === searchStatus
 
-    return matchesName && matchesStatus;
-});
-    
+        return matchesName && matchesStatus;
+    });
+
 
     const itemsPerPage = 5
     const [page, setPage] = useState(1)
@@ -91,24 +91,33 @@ export const Requests = () => {
 
     return (
         <>
-            <div className="d-flex justify-content-between mb-3">
-                <h1 className=" h3 text-start text-cl-primary">Abbiamo {requests.length} ricerche in corso:</h1>
-                {user?.role === 'sede' && (<Link to='/request/new' className="btn btn-primary">+ Intermediazione</Link>)}
+            <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+                <div className="d-flex align-items-baseline gap-3">
+                    <h1 className="mb-0">Richieste</h1>
+                    <span className="text-cl-secondary">{requests.length} in archivio</span>
+                </div>
+                {user?.role === 'sede' && (
+                    <Link to='/request/new' className="btn btn-primary">+ Nuova Ricerca</Link>
+                )}
             </div>
+
+
+
+
             <div className="d-flex gap-2 mb-3">
-                <input 
+                <input
                     aria-label="cerca per nome"
                     className="form-control"
                     placeholder="Cerca famiglia"
-                    type="text" 
+                    type="text"
                     value={searchName}
-                    onChange={(event)=>{setSearchName(event.target.value); setPage(1)}} />
+                    onChange={(event) => { setSearchName(event.target.value); setPage(1) }} />
 
                 <select
                     aria-label="Filtro"
                     className="form-select"
                     value={searchStatus}
-                    onChange={(event) => { setSearchStatus(event.target.value) ;setPage(1)}}>
+                    onChange={(event) => { setSearchStatus(event.target.value); setPage(1) }}>
                     <option value="">Filtro Status</option>
                     <option value="Attiva">Attiva</option>
                     <option value="Chiusa">Chiusa</option>
@@ -117,7 +126,7 @@ export const Requests = () => {
                 </select>
             </div>
             <div className="bg-cl-surface border border-cl rounded-3 overflow-hidden">
-                
+
                 <Table hover responsive className='align-middle mb-0'>
                     <thead>
                         <tr>
@@ -149,8 +158,8 @@ export const Requests = () => {
                                 <td>{request.workAddress.city}</td>
                                 <td><StatusBadge status={request.statusRichiesta} /></td>
                                 <td><Link to={`/request/${request._id}`} className="btn btn-sm btn-primary-light">
-                                    <Info size={16} />
-                                </Link></td>
+                                    <Info size={16} /></Link>
+                                </td>
                             </tr>
                         ))}
 

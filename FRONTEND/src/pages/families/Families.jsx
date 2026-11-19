@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useEffect } from "react"
-import { Spinner, Table, Button } from 'react-bootstrap';
+import { Spinner, Table } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { PaginationBar } from "../../components/PaginationBar";
 
@@ -89,9 +89,14 @@ export const Families = () => {
 
     return (
         <>
-            <div className="d-flex justify-content-between mb-3">
-                <h1 className=" h3 text-start text-cl-primary">Abbiamo {families.length} famiglie da aiutare:</h1>
-                {user?.role === 'sede' && (<Link to='/family/new' className="btn btn-primary">+ Famiglia</Link>)}
+            <div className="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+                <div className="d-flex align-items-baseline gap-3">
+                    <h1 className="mb-0">Famiglie</h1>
+                    <span className="text-cl-secondary">{families.length} in archivio</span>
+                </div>
+                {user?.role === 'sede' && (
+                    <Link to='/family/new' className="btn btn-primary">+ Nuova Famiglia</Link>
+                )}
             </div>
             <div className="d-flex gap-2 mb-3">
                 <input

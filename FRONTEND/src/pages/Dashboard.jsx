@@ -40,6 +40,7 @@ const Dashboard = () => {
     const [proposals, setProposals] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [errorMessage, setErrorMessage] = useState('')
+    const [applications, setApplications] = useState([])
     const user = JSON.parse(localStorage.getItem('user'))
 
     useEffect(() => {
@@ -61,6 +62,13 @@ const Dashboard = () => {
                 if (jobsResponse.ok) {
                     setProposals(jobsResult.filter((job) => job.status === 'proposta'))
                 }
+
+                const applicationsResponse = await fetch(`${URL}/applications`, { headers })
+                const applicationsResult = await applicationsResponse.json()
+                if (applicationsResponse.ok) {
+                    setApplications(applicationsResult)
+                }
+
             } catch (error) {
                 setErrorMessage("Server non raggiungibile")
                 console.log(error)
@@ -148,6 +156,35 @@ const Dashboard = () => {
                     )
                 })}
             </Row>
+            {/* -------------- CANDIDATURE PUBBLICHE ---------------- */}
+            <section className="mt-5">
+                <div className="d-flex justify-content-between align-items-baseline border-bottom border-cl pb-2 mb-1">
+                    <h2 className="h5 mb-0">Arrivate dalla bacheca</h2>
+                    <span className="small text-cl-secondary">ultime {applications.length}</span>
+                </div>
+
+                {applications.length === 0
+                    ? <p className="small text-cl-secondary mt-3">Nessuna candidatura per ora.</p>
+                    : applications.map((application) => (
+                        <div key={application._id} className="row g-2 py-3 border-bottom border-cl align-items-center">
+                            <div className="col-md-3 fw-semibold text-capitalize">
+                                {application.name} {application.lastName}
+                            </div>
+                            <div className="col-md-4 text-cl-secondary">
+                                <span className="text-capitalize">{application.request?.serviceType}</span> a {application.request?.workAddress?.city}
+                            </div>
+                            <div className="col-md-3">
+                                <a href={`tel:${application.phone}`}>{application.phone}</a>
+                            </div>
+                            <div className="col-md-2 small text-cl-secondary">
+                                {new Date(application.createdAt).toLocaleDateString('it-IT')}
+                            </div>
+                            {application.message && (
+                                <div className="col-12 small text-cl-secondary">“{application.message}”</div>
+                            )}
+                        </div>
+                    ))}
+            </section>
         </>
     )
 }
