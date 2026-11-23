@@ -268,6 +268,14 @@ const requestSchema = new Schema({
             }
         }
     },
+    signedIncarico:{
+        url: {
+            type: String
+        },
+        uploadedAt: {
+            type: Date
+        }
+    },
 
     publicDescription: {
         type: String,

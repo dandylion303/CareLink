@@ -115,3 +115,34 @@ export const closeRequest = async (req, res, next) => {
         next(error)
     }
 }
+
+
+export const uploadIncarico = async (req, res, next)=>{
+    try {
+        const id = req.params.id
+        if(!req.file){
+            return res.status(400).json('Nessun file caricato')
+        }
+        const specificRequest = await Request.findOne({_id: id, ...profileFilter(req.user)})
+        if(!specificRequest){
+            return res.status(404).json({message:'Non trovo la richiesta'})
+        }
+        if(specificRequest.statusRichiesta==='Chiusa'){
+            return res.status(400).json({message:'La richiesta risulta già chiusa'})
+        }
+        if(specificRequest.statusRichiesta==='inAttesa' && !specificRequest.serviceFee){
+            return res.status(400).json({message:'è necessario inserire il costo del servizio'})
+        } else {
+            specificRequest.signedIncarico = {url:req.file.path, uploadedAt: new Date()}
+            if(specificRequest.statusRichiesta==='inAttesa'){
+                specificRequest.statusRichiesta='Attiva'
+            }
+            await specificRequest.save()
+            return res.status(200).json(specificRequest) 
+        }
+
+
+    } catch (error) {
+        next(error)
+    }
+}

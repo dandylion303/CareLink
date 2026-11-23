@@ -7,6 +7,7 @@ import { MatchResults } from "../../components/RequestDetail/MatchResults"
 import { ProposalList } from "../../components/RequestDetail/ProposalList"
 import { BlobProvider } from '@react-pdf/renderer'
 import { RequestPdf } from '../../components/RequestDetail/RequestPdf'
+import { IncaricoUpload } from "../../components/RequestDetail/IncaricoUpload"
 
 
 const URL = import.meta.env.VITE_API_URL
@@ -268,6 +269,15 @@ export const RequestDetailPage = () => {
                         {request.isPublic && (
                             <p className="mb-3"><span className="text-cl-secondary">Testo pubblico:</span> {request.publicDescription}</p>
                         )}
+                        {request.signedIncarico?.url && (
+                            <p className="mb-1">
+                                <span className="text-cl-secondary">Incarico firmato:</span>{' '}
+                                <a href={request.signedIncarico.url} target="_blank" rel="noopener noreferrer">
+                                    Apri il PDF
+                                </a>{' '}
+                                <span className="small text-cl-secondary">(caricato il {formatDate(request.signedIncarico.uploadedAt)})</span>
+                            </p>
+                        )}
 
                         {request.statusRichiesta !== 'Chiusa' && (
                             <div className="d-flex gap-2 mt-3">
@@ -290,6 +300,9 @@ export const RequestDetailPage = () => {
                 </Col>
 
             </Row>
+            {request.statusRichiesta === 'inAttesa' && (
+                <IncaricoUpload requestId={id} isUploaded={getRequest} />
+            )}
 
             <Row className="mx-1 mb-4 bg-cl-surface border border-cl rounded-3">
                 <Col md={6}>

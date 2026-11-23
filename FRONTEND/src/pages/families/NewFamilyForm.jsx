@@ -41,7 +41,7 @@ export const NewFamilyForm = () => {
             if (!response.ok) {
                 setErrorMessage(result.message)
             } else {
-                navigate('/family')
+                navigate('/request/new',{state:{familyId: result._id}})
             }
 
         } catch (error) {

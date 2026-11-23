@@ -11,12 +11,13 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Container, Button } from "react-bootstrap";
 import { ArrowLeft, ArrowRight } from 'lucide-react'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 
 const URL = import.meta.env.VITE_API_URL
 
 export const NewRequestForm = () => {
+    const location = useLocation()
     const {
         register,
         handleSubmit,
@@ -26,7 +27,8 @@ export const NewRequestForm = () => {
         formState: { errors }
     } = useForm({
         defaultValues:{
-            badanteDetails:{numberOfAssisted:1}
+            famiglia: location.state?.familyId || '',
+            badanteDetails:{numberOfAssisted:1},
         }
     })
 
