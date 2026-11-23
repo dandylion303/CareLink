@@ -21,7 +21,7 @@ export const StepBadante = ({ register, errors, watch }) => {
                             type='text'
                             placeholder='Nome e Cognome'
                             className='form-control'
-                            {...register('badanteDetails.mainAssistedName', { required: 'Campo obbligatorio' })}
+                            {...register('badanteDetails.mainAssistedName')}
                         />
                         {errors.badanteDetails?.mainAssistedName && <p className='text-danger small mb-0'>{errors.badanteDetails?.mainAssistedName.message}</p>}
                     </Col>

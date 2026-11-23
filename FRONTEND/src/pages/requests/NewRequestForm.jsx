@@ -22,8 +22,13 @@ export const NewRequestForm = () => {
         handleSubmit,
         trigger,
         watch,
+        control,
         formState: { errors }
-    } = useForm()
+    } = useForm({
+        defaultValues:{
+            badanteDetails:{numberOfAssisted:1}
+        }
+    })
 
     const [step, setStep] = useState(1)
 
@@ -94,7 +99,7 @@ export const NewRequestForm = () => {
                 {/* ================= PAGINA 1 // SCELTA TIPOLOGIA + REGIME ============= */}
                 {step === 1 && (
                     <>
-                        <FamilySelect register={register} errors={errors} watch={watch} />
+                        <FamilySelect control={control} errors={errors} watch={watch} />
                         <StepBase register={register} errors={errors} watch={watch} />
                     </>
                 )}

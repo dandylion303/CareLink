@@ -3,7 +3,9 @@ import { profileFilter } from "../../utils/sedeFilter.js"
 
 export const getAllWorkers = async (req, res, next) => {
     try {
-        const allWorkers = await Worker.find(profileFilter(req.user))
+        const allWorkers = await Worker
+        .find(profileFilter(req.user))
+        .sort({createdAt:-1})
         res.status(200).json(allWorkers)
     } catch (error) {
         next(error)

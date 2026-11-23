@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Row, Col } from 'react-bootstrap'
+import { Controller } from 'react-hook-form'
+import Select from 'react-select'
 
 const URL = import.meta.env.VITE_API_URL
 
-export const FamilySelect = ({ register, errors }) => {
+
+
+export const FamilySelect = ({ control, errors }) => {
     const [families, setFamilies] = useState([])
 
     useEffect(() => {
@@ -31,32 +35,42 @@ export const FamilySelect = ({ register, errors }) => {
 
     }, [])
 
+    const options = families.map((family) => ({
+        value: family._id,
+        label: `${family.customerLastname} ${family.customerName} ${family.codiceFiscale}`
+    }))
+
 
     return (
         <>
+
             <fieldset className="bg-cl-surface border border-cl rounded-3 p-4 my-4">
                 <legend className="h5 mb-3">Famiglia Richiedente</legend>
                 <Row>
                     <Col md={12}>
                         <label className='form-label'>Famiglia</label>
-                        <select
-                            className='form-select'
-                            {...register(
-                                'famiglia',
-                                { required: 'Non può rimanere vuoto' })}>
-                            <option value="">Seleziona</option>
-                            {families.map((family) => (
-                                <option
-                                    key={family._id}
-                                    value={family._id} >
-                                    {family.customerLastname} {family.customerName} ({family.codiceFiscale})
-                                </option>
-                            ))}
-                        </select>
+
+                        <Controller
+                            name='famiglia'
+                            control={control}
+                            rules={{ required: 'Scegli la famiglia' }}
+                            render={({ field }) => (
+
+                                <Select
+                                    inputId='familySelect'
+                                    options={options}
+                                    placeholder='Cerca per nome, cognome o codice fiscale'
+                                    noOptionsMessage={() => 'Nessuna famiglia trovata'}
+                                    isClearable
+                                    value={options.find((option) => option.value === field.value) || null}
+                                    onChange={(option) => field.onChange(option ? option.value : ' ')}
+                                />
+                            )}
+                        />
                         {errors.famiglia && <p className='text-danger small mb-0'>{errors.famiglia.message}</p>}
                     </Col>
-                </Row>
-            </fieldset>
+                </Row >
+            </fieldset >
 
         </>
     )

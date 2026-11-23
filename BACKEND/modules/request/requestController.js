@@ -8,7 +8,10 @@ import Worker from '../worker/Worker.js'
 
 export const getAllRequests = async (req, res, next) => {
     try {
-        const allRequests = await Request.find(profileFilter(req.user)).populate('famiglia', 'customerName customerLastname')
+        const allRequests = await Request
+        .find(profileFilter(req.user))
+        .populate('famiglia', 'customerName customerLastname')
+        .sort({createdAt:-1})
         res.status(200).json(allRequests)
     } catch (error) {
         next(error)

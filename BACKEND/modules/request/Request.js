@@ -187,12 +187,12 @@ const requestSchema = new Schema({
         numberOfAssisted: {
             type: Number,
             min: 1,
+            default:1,
             required: isBadante
         },
         mainAssistedName: {
             type: String,
             trim: true,
-            required: isBadante
         },
         ageRange: {
             type: String,
