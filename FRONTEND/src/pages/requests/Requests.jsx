@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { StatusBadge } from "../../components/StatusBadge";
 import { Info } from 'lucide-react'
 import { PaginationBar } from "../../components/PaginationBar";
+import { dizionarioRegime } from "../../components/Dizionario";
 
 const URL = import.meta.env.VITE_API_URL
 
@@ -153,7 +154,7 @@ export const Requests = () => {
                                     </div>
                                 </td>
                                 <td>{request.serviceType}</td>
-                                <td>{request.workRequest}</td>
+                                <td>{dizionarioRegime(request.workRequest)}</td>
                                 <td>{request.livello}</td>
                                 <td>{request.workAddress.city}</td>
                                 <td><StatusBadge status={request.statusRichiesta} /></td>

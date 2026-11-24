@@ -8,6 +8,7 @@ import { ProposalList } from "../../components/RequestDetail/ProposalList"
 import { BlobProvider } from '@react-pdf/renderer'
 import { RequestPdf } from '../../components/RequestDetail/RequestPdf'
 import { IncaricoUpload } from "../../components/RequestDetail/IncaricoUpload"
+import { dizionarioRegime } from "../../components/Dizionario"
 
 
 const URL = import.meta.env.VITE_API_URL
@@ -309,7 +310,7 @@ export const RequestDetailPage = () => {
                     <div className="p-4 h-100">
                         <h2 className="h5 mb-3">Richiesta</h2>
                         <p className="mb-1"><span className="text-cl-secondary">Tipologia:</span> <span className="text-capitalize">{request.serviceType}</span></p>
-                        <p className="mb-1"><span className="text-cl-secondary">Regime:</span> {request.workRequest}</p>
+                        <p className="mb-1"><span className="text-cl-secondary">Regime:</span> {dizionarioRegime(request.workRequest)}</p>
                         <p className="mb-1"><span className="text-cl-secondary">Livello:</span> {request.livello} · tabella {request.inquadramento}</p>
                         <p className="mb-0"><span className="text-cl-secondary">Maggiorazioni:</span> {request.maggiorazioni.length > 0 ? request.maggiorazioni.join(', ') : 'nessuna'}</p>
                     </div>

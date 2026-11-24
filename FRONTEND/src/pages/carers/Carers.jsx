@@ -4,6 +4,7 @@ import { Spinner, Table, Button } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { Info } from 'lucide-react'
 import { PaginationBar } from "../../components/PaginationBar";
+import { dizionarioRegime } from "../../components/Dizionario";
 
 const URL = import.meta.env.VITE_API_URL
 
@@ -168,8 +169,8 @@ export const Carers = () => {
                                         </div>
                                     </div>
                                 </td>
-                                <td>{(carer.jobTypes).join(', ')}</td>
-                                <td>{(carer.regimes).join(', ')}</td>
+                                <td className="text-capitalize">{(carer.jobTypes).join(', ')}</td>
+                                <td>{carer.regimes.map((regime)=> dizionarioRegime(regime)).join(', ')}</td>
                                 <td>{carer.phone}</td>
                                 <td>
                                     {carer.warning?.isFlagged

@@ -1,12 +1,14 @@
 import { NavLink, Outlet, Link } from "react-router-dom"
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Offcanvas } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 
 export const Layout = () => {
     const navigate = useNavigate()
     const user = JSON.parse(localStorage.getItem('user'))
     const token = localStorage.getItem('token')
+    const [showMenu, setShowMenu] = useState(false)
 
 
     const handleLogout = () => {
@@ -49,16 +51,32 @@ export const Layout = () => {
                 <Container fluid className="p-4 flex-grow-1">
                     <Row>
                         <Col md={3} lg={2} className="menu-col">
-                            <nav className="nav flex-column">
-                                <NavLink to='/' className='nav-link'>Home</NavLink>
-                                <NavLink to='/carers' className='nav-link'>Carer</NavLink>
-                                <NavLink to='/family' className='nav-link'>Famiglie</NavLink>
-                                <NavLink to='/request' className='nav-link'>Richieste</NavLink>
-                                <NavLink to='/simulatore' className='nav-link'>Simulatore</NavLink>
-                                <hr className="my-2" />
-                                <NavLink to='/bacheca' className='nav-link'>Bacheca Pubblica</NavLink>
+                            <Button
+                                variant="outline-secondary"
+                                className="d-md-none mb-3"
+                                onClick={() => setShowMenu(true)}>
+                                Menu
+                            </Button>
 
-                            </nav>
+                            <Offcanvas
+                                show={showMenu}
+                                onHide={() => setShowMenu(false)}
+                                responsive="md">
+                                <Offcanvas.Header closeButton>
+                                    <Offcanvas.Title>Menu</Offcanvas.Title>
+                                </Offcanvas.Header>
+                                <Offcanvas.Body>
+                                    <nav className="nav flex-column w-100" onClick={() => setShowMenu(false)}>
+                                        <NavLink to='/' className='nav-link'>Home</NavLink>
+                                        <NavLink to='/carers' className='nav-link'>Carer</NavLink>
+                                        <NavLink to='/family' className='nav-link'>Famiglie</NavLink>
+                                        <NavLink to='/request' className='nav-link'>Richieste</NavLink>
+                                        <NavLink to='/simulatore' className='nav-link'>Simulatore</NavLink>
+                                        <hr className="my-2" />
+                                        <NavLink to='/bacheca' className='nav-link'>Bacheca Pubblica</NavLink>
+                                    </nav>
+                                </Offcanvas.Body>
+                            </Offcanvas>
                         </Col>
                         <Col>
                             <main>

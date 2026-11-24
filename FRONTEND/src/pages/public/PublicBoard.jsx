@@ -20,6 +20,8 @@ export const PublicBoard = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [errorMessage, setErrorMessage] = useState('')
     const [selectedOffer, setSelectedOffer] = useState(null)
+    const [serviceFilter, setServiceFilter] = useState('')
+    const [cityFilter, setCityFilter] = useState('')
 
     useEffect(() => {
         const getOffers = async () => {
@@ -41,6 +43,13 @@ export const PublicBoard = () => {
         getOffers()
     }, [])
 
+    const cities = [...new Set(offers.map((offer) => offer.workAddress?.city?.toLowerCase()).filter(Boolean))].sort()
+
+    const filteredOffers = offers.filter((offer) =>
+        (serviceFilter === '' || offer.serviceType === serviceFilter) &&
+        (cityFilter === '' || offer.workAddress?.city?.toLowerCase() === cityFilter)
+    )
+
     return (
         <>
             <header className="mainHeader d-flex justify-content-between align-items-center px-4 py-3">
@@ -57,6 +66,40 @@ export const PublicBoard = () => {
                 <p className="text-cl-secondary mb-4">
                     Cerchiamo colf, badanti e babysitter per le famiglie che si affidano a noi.
                 </p>
+
+                {/* --------------FILTRI------------ */}
+                {offers.length > 0 && (
+                    <Row className="g-3 mb-4">
+                        <Col md={4}>
+                            <label htmlFor="serviceFilter" className="form-label small">Categoria</label>
+                            <select
+                                id="serviceFilter"
+                                className="form-select"
+                                value={serviceFilter}
+                                onChange={(e) => setServiceFilter(e.target.value)}>
+                                <option value="">Tutte</option>
+                                <option value="colf">Colf</option>
+                                <option value="badante">Badante</option>
+                                <option value="babysitter">Babysitter</option>
+                            </select>
+                        </Col>
+                        <Col md={4}>
+                            <label htmlFor="cityFilter" className="form-label small">Luogo di lavoro</label>
+                            <select
+                                id="cityFilter"
+                                className="form-select text-capitalize"
+                                value={cityFilter}
+                                onChange={(e) => setCityFilter(e.target.value)}>
+                                <option value="">Tutti</option>
+                                {cities.map((city) => (
+                                    <option key={city} value={city}>{city}</option>
+                                ))}
+                            </select>
+                        </Col>
+                    </Row>
+                )}
+
+
 
                 {/* ---------- LOADING ---------- */}
                 {isLoading && (
@@ -81,29 +124,34 @@ export const PublicBoard = () => {
 
                 {/* ---------- ANNUNCI ---------- */}
                 {!isLoading && !errorMessage && offers.length > 0 && (
-                    <Row className="g-4">
-                        {offers.map((offer) => (
-                            <Col md={6} key={offer._id}>
-                                <div className="bg-cl-surface border border-cl rounded-3 p-4 h-100 d-flex flex-column">
-                                    <h2 className="h4 mb-1">
-                                        <span className="text-capitalize">{offer.serviceType}</span> a {offer.workAddress?.city}
-                                    </h2>
-                                    <p className="small text-cl-secondary mb-3">
-                                        {regimeLabels[offer.workRequest] ?? offer.workRequest}
-                                        {' · '}{offer.oreSettimanali} ore settimanali
-                                        {' · '}livello {offer.livello}
-                                        {offer.startDate && <>{' · '}dal {formatDate(offer.startDate)}</>}
-                                    </p>
+                    <>
+                        <Row className="g-4">
+                            {filteredOffers.map((offer) => (
+                                <Col md={6} key={offer._id}>
+                                    <div className="bg-cl-surface border border-cl rounded-3 p-4 h-100 d-flex flex-column">
+                                        <h2 className="h4 mb-1">
+                                            <span className="text-capitalize">{offer.serviceType}</span> a {offer.workAddress?.city}
+                                        </h2>
+                                        <p className="small text-cl-secondary mb-3">
+                                            {regimeLabels[offer.workRequest] ?? offer.workRequest}
+                                            {' · '}{offer.oreSettimanali} ore settimanali
+                                            {' · '}livello {offer.livello}
+                                            {offer.startDate && <>{' · '}dal {formatDate(offer.startDate)}</>}
+                                        </p>
 
-                                    <p className="flex-grow-1">{offer.publicDescription}</p>
+                                        <p className="flex-grow-1">{offer.publicDescription}</p>
 
-                                    <div>
-                                        <Button onClick={() => setSelectedOffer(offer)}>Candidati</Button>
+                                        <div>
+                                            <Button onClick={() => setSelectedOffer(offer)}>Candidati</Button>
+                                        </div>
                                     </div>
-                                </div>
-                            </Col>
-                        ))}
-                    </Row>
+                                </Col>
+                            ))}
+                        </Row>
+                        {filteredOffers.length === 0 && (
+                            <p className="text-cl-secondary">Nessuna offerta per questa ricerca.</p>
+                        )}
+                    </>
                 )}
             </Container>
             <ApplicationForm
